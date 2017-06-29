@@ -115,11 +115,11 @@
     <div class="footer-above">
         <div class="container">
             <div class="row">
-                <div class="footer-col col-md-4">
+                <div class="footer-col col-md-8 col-md-offset-2">
                     <h3>Contact</h3>
                     <p>
-                        <a href="mailto:ben.demeester@ugent.be">Ben De Meester</a><br/>
-                        <a href="mailto:anastasia.dimou@ugent.be">Anastasia Dimou</a>
+                        Ben De Meester: <span id="mailBen">ben {dot) demeester (at) ugent (dot) be</span><br/>
+                        Anastasia Dimou: <span id="mailAnastasia">anastasia {dot) dimou (at) ugent (dot) be</span>
                     </p>
                 </div>
             </div>
@@ -152,10 +152,18 @@
         var startYear = $year.attr('data-year-start');
         var currYear = '' + (new Date()).getFullYear();
         var text = startYear;
-        if (startYear != currYear) {
+        if (startYear !== currYear) {
             text += '  &ndash; ' + currYear;
         }
         $year.html(text);
+
+        var mailParts = {ben: ['ben', 'demeester'], anastasia: ['anastasia', 'dimou']};
+        var mailEnd = '@ugent.be';
+        var mailBen = mailParts.ben.join('.') + mailEnd;
+        var mailAnastasia = mailParts.anastasia.join('.') + mailEnd;
+
+        $('#mailBen').html('<a href="mail:' + mailBen + '">' + mailBen + '</a>');
+        $('#mailAnastasia').html('<a href="mail:' + mailBen + '">' + mailBen + '</a>');
     });
 </script>
 <script>
