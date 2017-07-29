@@ -127,32 +127,32 @@
             <div class="col-lg-6">
                 <p>
                     As example, we generate Linked Data using a RML and FnO declarative document.
-                    Resources of type <code>ex:Person</code> are created based on a data source (<code>#Person_LogicalSource</code>).
-                    Each resource gets assigned a name (<code>#NameMapping</code>),
+                    Resources of type <code>ex:Person</code> are created based on a data source (<code>:Person_LogicalSource</code>).
+                    Each resource gets assigned a name (<code>:NameMapping</code>),
                     using the predicate <code>dbo:name</code>.
                     To get the name value, we use the function <code>grel:toTitleCase</code>,
                     to have nicely formatted names in our dataset.
-                    For this, we use the <code>"name"</code> reference within our data source (<code>#Person_LogicalSource</code>).
+                    For this, we use the <code>"name"</code> reference within our data source (<code>:Person_LogicalSource</code>).
                 </p>
             </div>
             <div class="col-lg-6">
                 <pre>
                     <code>
-&lt;#Person_TemplateMapping&gt;
-    rml:logicalSource &lt;#Person_LogicalSource&gt; ;
-    rr:subjectMap &lt;#Person_SubjectMap&gt; ;
-    <strong>rr:predicateObjectMap &lt;#NameMapping&gt;</strong> .
+:Person_TemplateMapping
+    rml:logicalSource :Person_LogicalSource ;
+    rr:subjectMap :Person_SubjectMap ;
+    <strong>rr:predicateObjectMap :NameMapping</strong> .
 
-&lt;#Person_SubjectMap&gt;
+:Person_SubjectMap
     rr:template "http://example.org/{id}" ;
     rr:class ex:Person .
 
-<strong>&lt;#NameMapping&gt;</strong>
+<strong>:NameMapping</strong>
     rr:predicate dbo:name ;
     rr:objectMap [
         a fnml:FunctionTermMap ;
         fnml:functionValue [
-            rml:logicalSource &lt;#Person_LogicalSource&gt; ;
+            rml:logicalSource :Person_LogicalSource ;
             rr:predicateObjectMap [
                 rr:predicate <strong>fno:executes</strong> ;
                 rr:objectMap [ rr:constant <strong>grel:toTitleCase</strong> ] ] ;
@@ -181,10 +181,11 @@
             <div class="col-lg-6">
                 <pre>
                     <code>
-grel:toUppercase :implementedIn :grelJava
-:grelJava doap:file-release &lt;http://example.com/grelFunctions.jar&gt; .
+grel:toUppercase :implementedIn :grelJavaImpl .
+:grelJavaImpl a prov:Agent;
+    doap:file-release &lt;http://example.com/grelFunctions.jar&gt; .
 
-&lt;http://example.com/grelFunctions.jar&gt; a prov:Agent, spdx:File ;
+&lt;http://example.com/grelFunctions.jar&gt; spdx:File ;
 spdx:checksum [
 	spdx:algorithm spdx:checksumAlgorithm_sha1 ;
 	spdx:checksumValue "ffbdbf69f1572ea6a9f2da9a351a480f30070312"
@@ -195,7 +196,99 @@ spdx:checksum [
             </div>
         </div>
 
-        <p>This can thus trigger the generation of the triple <code>&lt;http://example.com/1&gt; dbo:name "Ben De Meester"</code>.</p>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>This can thus trigger the generation of the triple <code>&lt;http://example.com/1&gt; dbo:name "Ben De Meester"</code>.</p>
+
+                <p>The generation provenance of the value <code>"Ben De Meester"</code> can be modeled as follows:</p>
+
+                <figure style="margin: 16px 0;">
+                    <img src="../img/fno_prov_model.png" style="max-width: 100%"/>
+                </figure>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <p>The FnO statements involved in the data processing can be automatically captured during the mapping process.</p>
+            </div>
+            <div class="col-lg-6">
+                <pre>
+                    <code>
+grel:toTitleCase a fno:Function, prov:Entity ;
+    fno:name "title case" ;
+    fno:expects ( [ fno:predicate grel:stringInput ] ) ;
+    fno:output ( [ fno:predicate grel:stringOutput ] ) .
+
+:exe a fno:Execution, prov:Activity ;
+    :implementation :grelJavaImpl ;
+    fno:executes grel:toTitleCase ;
+    grel:stringInput :input ;
+    grel:stringOutput :output .
+
+    :input a prov:Entity ; rdf:value "ben de meester" .
+    :output a prov:Entity ; rdf:value "Ben De Meester" .
+                    </code>
+                </pre>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <p>These FnO statements allow us to derive the actual PROV-O information.</p>
+            </div>
+            <div class="col-lg-6">
+                <pre>
+                    <code>
+:NameMapping a prov:Activity .
+
+:exe a prov:Activity ;
+    prov:wasInformedBy :NameMapping ;
+    prov:used :input ;
+    prov:used grel:toTitleCase ;
+    prov:wasAssociatedWith :grelJavaImpl ;
+    prov:startedAtTime “XXX”^^xsd:dateTime ;
+    prov:endedAtTime “YYY”^^xsd:dateTime .
+
+:output a prov:Entity ;
+    prov:wasGeneratedBy :exe ;
+    <span class="text-muted">prov:wasAttributedTo :grelJavaImpl</span> .
+
+grel:toUppercase :implementeds :grelJavaImpl .
+                    </code>
+                </pre>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>As a result, we have:</p>
+
+                <ul>
+                    <li>The output entities, i.e., the resulting value, give a clear list of output values.</li>
+                    <li>The data transformation activities, i.e., the FnO execution triples, show implementation-independent what happened.<br/>
+                        This can be used to compare results with other implementations.</li>
+                    <li>The tool agents, i.e., the actual implementation files (or remote APIs, or other ways of performing the actual function…),
+                        show exactly which implementation was responsible for the execution. This allows attribution/accountability.</li>
+                </ul>
+
+                <p>This has the added benefits that:</p>
+
+                <ul>
+                    <li>
+                        Easy queries (e.g., querying all <code>fno:Execution</code> that <code>fno:executes grel:toUppercase</code>, that <code>prov:wasInformedBy :NameMapping</code>)
+                        can give an immedia ground truth
+                    </li>
+                    <li>
+                        To compare data transformation tools, the actual mapping no longer needs to be executed,
+                        only the <code>:input</code> values are needed.
+                    </li>
+                    <li>
+                        The <code>prov:startedAtTime</code> and <code>prov:endedAtTime</code> allow for easy performance evaluation.
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </section>
 
