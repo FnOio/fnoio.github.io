@@ -126,11 +126,76 @@
         <div class="row">
             <div class="col-lg-6">
                 <p>
-                    As example, we generate Linked Data using a RML and FnO.
-                    More TBD
+                    As example, we generate Linked Data using a RML and FnO declarative document.
+                    Resources of type <code>ex:Person</code> are created based on a data source (<code>#Person_LogicalSource</code>).
+                    Each resource gets assigned a name (<code>#NameMapping</code>),
+                    using the predicate <code>dbo:name</code>.
+                    To get the name value, we use the function <code>grel:toTitleCase</code>,
+                    to have nicely formatted names in our dataset.
+                    For this, we use the <code>"name"</code> reference within our data source (<code>#Person_LogicalSource</code>).
                 </p>
             </div>
+            <div class="col-lg-6">
+                <pre>
+                    <code>
+&lt;#Person_TemplateMapping&gt;
+    rml:logicalSource &lt;#Person_LogicalSource&gt; ;
+    rr:subjectMap &lt;#Person_SubjectMap&gt; ;
+    <strong>rr:predicateObjectMap &lt;#NameMapping&gt;</strong> .
+
+&lt;#Person_SubjectMap&gt;
+    rr:template "http://example.org/{id}" ;
+    rr:class ex:Person .
+
+<strong>&lt;#NameMapping&gt;</strong>
+    rr:predicate dbo:name ;
+    rr:objectMap [
+        a fnml:FunctionTermMap ;
+        fnml:functionValue [
+            rml:logicalSource &lt;#Person_LogicalSource&gt; ;
+            rr:predicateObjectMap [
+                rr:predicate <strong>fno:executes</strong> ;
+                rr:objectMap [ rr:constant <strong>grel:toTitleCase</strong> ] ] ;
+            rr:predicateObjectMap [
+                rr:predicate <strong>grel:valueParameter</strong> ;
+                rr:objectMap [ <strong>rml:reference "name"</strong> ] ]
+        ]
+    ] .
+                    </code>
+                </pre>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <p>
+                    To retrieve the actual implementation of <code>grel:toTitleCase</code>,
+                    we dereference <code>grel:toTitleCase</code> to get the actual implementation (<code>http://example.com/grelFunctions.jar</code>).
+                </p>
+
+                <blockquote>
+                    <p>
+                        More info on this dereferencing can be found in <a href="http://ceur-ws.org/Vol-1690/paper110.pdf">our accompanying paper</a>.
+                    </p>
+                </blockquote>
+            </div>
+            <div class="col-lg-6">
+                <pre>
+                    <code>
+grel:toUppercase :implementedIn :grelJava
+:grelJava doap:file-release &lt;http://example.com/grelFunctions.jar&gt; .
+
+&lt;http://example.com/grelFunctions.jar&gt; a prov:Agent, spdx:File ;
+spdx:checksum [
+	spdx:algorithm spdx:checksumAlgorithm_sha1 ;
+	spdx:checksumValue "ffbdbf69f1572ea6a9f2da9a351a480f30070312"
+] .
+
+                    </code>
+                </pre>
+            </div>
+        </div>
+
+        <p>This can thus trigger the generation of the triple <code>&lt;http://example.com/1&gt; dbo:name "Ben De Meester"</code>.</p>
     </div>
 </section>
 
