@@ -35,7 +35,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="#page-top">Top</a>
+            <a class="navbar-brand" href="#page-top">FnO - PROV</a>
         </div>
 
          <!--Collect the nav links, forms, and other content for toggling -->
@@ -45,7 +45,10 @@
                 <a href="#page-top"></a>
             </li>
             <li>
-                <a href="https://fno.io">Home</a>
+                <a href="https://fno.io">FnO</a>
+            </li>
+            <li class="page-scroll">
+                <a href="#about">About</a>
             </li>
             <li class="page-scroll">
                 <a href="#example">Example</a>
@@ -66,12 +69,51 @@
                 <div class="intro-text">
                     <span class="name">Provenance of function executions</span>
                     <hr class="star-light">
-                    <!--<span class="skills">Web Developer - Graphic Artist - User Experience Designer</span>-->
+                    <span class="skills">Paper submitted to <a href="https://semsci.github.io/semSci2017/" target="_blank">SemSci</a> @ <a href="https://iswc2017.semanticweb.org" target="_blank">ISWC2017</a></span>
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+<!-- About Section -->
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>About</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>
+                    A large part of scientific output entails computational experiments,
+                    e.g., processing data to generate new data.
+                    However, this generation process
+                    is only documented in human-readable form or as a software repository.
+                    This inhibits reproducibility and comparability,
+                    as current documentation solutions do not provide detailed metadata
+                    and rely on the availability of specific software environments.
+                </p>
+                <p>
+                    Here, we propose an automatic capturing mechanism
+                    for interchangeable and implementation independent
+                    metadata and provenance
+                    that includes data processing.
+                    Using declarative mapping documents to describe the computational experiment,
+                    term-level provenance can be automatically captured,
+                    for both schema and data transformations,
+                    and storing both the used software tools as the input-output pairs of the data processing executions.
+                </p>
+                <p>
+                    More specifically, this page shows how this provenance is captured
+                    applied to mapping documents described using <a href="http://rml.io">RML</a> and <a href="https://fno.io">FnO</a>,
+                    and implemented in the <a href="https://github.com/RMLio/RML-Mapper">RMLMapper</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- About Section -->
 <section id="example">
@@ -82,8 +124,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <p>TBD</p>
+            <div class="col-lg-6">
+                <p>
+                    As example, we generate Linked Data using a RML and FnO.
+                    More TBD
+                </p>
             </div>
         </div>
     </div>
