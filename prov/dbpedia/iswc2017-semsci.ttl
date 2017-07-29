@@ -1,0 +1,71 @@
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix fnml: <http://semweb.datasciencelab.be/ns/fnml#> .
+@prefix fno: <http://w3id.org/function/ontology#> .
+@prefix grel: <http://semweb.datasciencelab.be/ns/grel#> .
+
+@prefix : <https://fno.io/prov/dbpedia/iswc2017-semsci#> .
+
+:Person_TemplateMapping
+    rml:logicalSource :Person_LogicalSource ;
+    rr:subjectMap :Person_SubjectMap ;
+    rr:predicateObjectMap :NameMapping .
+
+:Person_SubjectMap
+    rr:template "http://example.org/{id}" ;
+    rr:class ex:Person .
+
+:NameMapping
+    rr:predicate dbo:name ;
+    rr:objectMap [
+        a fnml:FunctionTermMap ;
+        fnml:functionValue [
+            rml:logicalSource :Person_LogicalSource ;
+            rr:predicateObjectMap [
+                rr:predicate fno:executes ;
+                rr:objectMap [ rr:constant grel:toTitleCase ] ] ;
+            rr:predicateObjectMap [
+                rr:predicate grel:valueParameter ;
+                rr:objectMap [ rml:reference "name" ] ]
+        ]
+    ] .
+
+grel:toUppercase :implementedIn :grelJavaImpl .
+:grelJavaImpl a prov:Agent;
+    doap:file-release <http://example.com/grelFunctions.jar> .
+
+<http://example.com/grelFunctions.jar> spdx:File ;
+spdx:checksum [
+	spdx:algorithm spdx:checksumAlgorithm_sha1 ;
+	spdx:checksumValue "ffbdbf69f1572ea6a9f2da9a351a480f30070312"
+] .
+
+grel:toTitleCase a fno:Function, prov:Entity ;
+    fno:name "title case" ;
+    fno:expects ( [ fno:predicate grel:stringInput ] ) ;
+    fno:output ( [ fno:predicate grel:stringOutput ] ) .
+
+:exe a fno:Execution, prov:Activity ;
+    :implementation :grelJavaImpl ;
+    fno:executes grel:toTitleCase ;
+    grel:stringInput :input ;
+    grel:stringOutput :output .
+
+:input a prov:Entity ; rdf:value "ben de meester" .
+:output a prov:Entity ; rdf:value "Ben De Meester" .
+
+:NameMapping a prov:Activity .
+
+:exe a prov:Activity ;
+    prov:wasInformedBy :NameMapping ;
+    prov:used :input ;
+    prov:used grel:toTitleCase ;
+    prov:wasAssociatedWith :grelJavaImpl ;
+    prov:startedAtTime “XXX”^^xsd:dateTime ;
+    prov:endedAtTime “YYY”^^xsd:dateTime .
+
+:output a prov:Entity ;
+    prov:wasGeneratedBy :exe ;
+    prov:wasAttributedTo :grelJavaImpl .
+
+grel:toUppercase :implements :grelJavaImpl .
