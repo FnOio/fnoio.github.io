@@ -20,7 +20,7 @@
     rr:template "http://example.org/{id}" ;
     rr:class :Person .
 
-:NameMapping
+:NameMap
     rr:predicate :name ;
     rr:objectMap [
         a fnml:FunctionTermMap ;
@@ -37,6 +37,7 @@
 
 grel:toUppercase :implementedIn :grelJavaImpl .
 :grelJavaImpl a prov:Agent;
+    prov:type prov:SoftwareAgent ;
     doap:file-release <http://example.com/grelFunctions.jar> .
 
 <http://example.com/grelFunctions.jar> a spdx:File ;
@@ -59,15 +60,34 @@ grel:toTitleCase a fno:Function, prov:Entity ;
 :input a prov:Entity ; rdf:value "ben de meester" .
 :output a prov:Entity ; rdf:value "Ben De Meester" .
 
-:NameMapping a prov:Activity .
+:RDF_Dataset a prov:Entity, void:Dataset;
+    prov:generatedAtTime "2016-01-05T17:10:00Z"^^xsd:dateTime;
+    prov:wasGeneratedBy :NameMapping;
+    prov:wasDerivedFrom Person_LogicalSource;
+    prov:wasAssociatedWith :RMLProcessor;
+    dcterms:creator <http://rml.io/people/AnastasiaDimou>;
+    dcterms:created "2016-01-05T17:10:00Z"^^xsd:dateTime;
+    dcterms:modified "2016-01-05T17:12:00Z"^^xsd:dateTime;
+    dcterms:issued "2016-01-07T10:10:00Z"^^xsd:dateTime.
+
+:NameMapping a prov:Activity ;
+    prov:generated :RDF_Dataset;
+    prov:startedAtTime "2017-02-28T17:00:00Z"^^xsd:dateTime;
+    prov:endedAtTime "2017-02-28T17:10:00Z"^^xsd:dateTime;
+    prov:wasInformedBy <#MapDoc_Generation>;
+    prov:used :NameMap, :Person_LogicalSource .
+
+:RMLProcessor a prov:Agent;
+    prov:type prov:SoftwareAgent ;
+    doap:release <https://github.com/RMLio/RML-Mapper>
 
 :exe a prov:Activity ;
     prov:wasInformedBy :NameMapping ;
     prov:used :input ;
     prov:used grel:toTitleCase ;
     prov:wasAssociatedWith :grelJavaImpl ;
-    prov:startedAtTime "2017-07-29T14:58:40.950Z"^^xsd:dateTime ;
-    prov:endedAtTime "2017-07-29T14:59:06.149Z"^^xsd:dateTime .
+    prov:startedAtTime "2017-02-28T17:01:00Z"^^xsd:dateTime ;
+    prov:endedAtTime "2017-02-28T17:02:00Z"^^xsd:dateTime .
 
 :output a prov:Entity ;
     prov:wasGeneratedBy :exe ;
