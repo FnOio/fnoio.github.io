@@ -8,6 +8,8 @@
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 
 @prefix : <https://fno.io/prov/dbpedia/iswc2017-semsci#> .
 
@@ -63,7 +65,7 @@ grel:toTitleCase a fno:Function, prov:Entity ;
 :RDF_Dataset a prov:Entity, void:Dataset;
     prov:generatedAtTime "2016-01-05T17:10:00Z"^^xsd:dateTime;
     prov:wasGeneratedBy :NameMapping;
-    prov:wasDerivedFrom Person_LogicalSource;
+    prov:wasDerivedFrom :Person_LogicalSource;
     prov:wasAssociatedWith :RMLProcessor;
     dcterms:creator <http://rml.io/people/AnastasiaDimou>;
     dcterms:created "2016-01-05T17:10:00Z"^^xsd:dateTime;
@@ -79,7 +81,7 @@ grel:toTitleCase a fno:Function, prov:Entity ;
 
 :RMLProcessor a prov:Agent;
     prov:type prov:SoftwareAgent ;
-    doap:release <https://github.com/RMLio/RML-Mapper>
+    doap:release <https://github.com/RMLio/RML-Mapper> .
 
 :exe a prov:Activity ;
     prov:wasInformedBy :NameMapping ;
