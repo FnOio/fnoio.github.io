@@ -1,0 +1,11 @@
+{
+  "title": "FnO PROV Linked Data Fragments server",
+  "datasources": {
+    "semsci2017": {
+      "title": "DBpedia FnO PROV Sample (SemSci)",
+      "type": "TurtleDatasource",
+      "description": "DBpedia FnO PROV Sample for SemSci @ ISWC2017",
+      "settings": { "url": "./prov/dbpedia/iswc2017-semsci.ttl" }
+    }
+  }
+}
