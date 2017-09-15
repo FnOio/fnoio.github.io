@@ -69,7 +69,7 @@
                 <div class="intro-text">
                     <span class="name">Provenance of function executions</span>
                     <hr class="star-light">
-                    <span class="skills">Paper submitted to <a href="https://semsci.github.io/semSci2017/" target="_blank">SemSci</a> @ <a href="https://iswc2017.semanticweb.org" target="_blank">ISWC2017</a></span>
+                    <span class="skills">Paper accepted at <a href="https://semsci.github.io/semSci2017/" target="_blank">SemSci</a> @ <a href="https://iswc2017.semanticweb.org" target="_blank">ISWC2017</a></span>
                 </div>
             </div>
         </div>
@@ -247,14 +247,18 @@ grel:toTitleCase a fno:Function, prov:Entity ;
     prov:used :input ;
     prov:used grel:toTitleCase ;
     prov:wasAssociatedWith :grelJavaImpl ;
+    prov:qualifiedAssociation [
+        a prov:Association;
+        prov:agent   :grelJavaImpl;
+        prov:hadRole :implementation;
+        prov:hadPlan grel:toTitleCase
+    ] ;
     prov:startedAtTime “XXX”^^xsd:dateTime ;
     prov:endedAtTime “YYY”^^xsd:dateTime .
 
 :output a prov:Entity ;
     prov:wasGeneratedBy :exe ;
     <span class="text-muted">prov:wasAttributedTo :grelJavaImpl</span> .
-
-grel:toUppercase :implements :grelJavaImpl .
                     </code>
                 </pre>
             </div>
