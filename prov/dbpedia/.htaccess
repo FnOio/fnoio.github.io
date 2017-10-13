@@ -1,0 +1,1 @@
+RewriteRule iswc2017-semsci iswc2017-semsci.ttl [L,R]
