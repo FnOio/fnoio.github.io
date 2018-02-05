@@ -178,16 +178,16 @@
             <div class="col-lg-6">
                 <p>
                     The FnO description of the function <a
-                        href="https://github.com/OpenRefine/OpenRefine/wiki/GREL-String-Functions#totitlecasestring-s">toTitleCase</a>
+                        href="https://github.com/OpenRefine/OpenRefine/wiki/GREL-String-Functions#touppercasestring-s">toUppercase</a>
                     is as follows:
                 </p>
             </div>
             <div class="col-lg-6">
                 <pre>
                     <code>
-grel:toTitleCase a fno:Function ;
-    fno:name "title case" ;
-    dcterms:description "return the input string in title case" ;
+grel:toUppercase a fno:Function ;
+    fno:name "upper case" ;
+    dcterms:description "return the input string in upper case" ;
     fno:expects ( [ fno:predicate grel:stringInput ] ) ;
     fno:output ( [ fno:predicate grel:stringOutput ] ) .
                     </code>
@@ -205,9 +205,9 @@ grel:toTitleCase a fno:Function ;
                 <pre>
                     <code>
 :exe a fno:Execution ;
-    fno:executes grel:toTitleCase ;
+    fno:executes grel:toUppercase ;
     grel:stringInput "This is an input STRING." ;
-    grel:stringOutput "This Is An Input String." .
+    grel:stringOutput "THIS IS AN INPUT STRING." .
                     </code>
                 </pre>
             </div>
@@ -226,24 +226,24 @@ grel:toTitleCase a fno:Function ;
                 <pre>
                     <code>
 &lt;#Person_Mapping&gt;
-    rml:logicalSource &lt;#LogicalSource&gt; ;                # Specify the data source
-    rr:subjectMap &lt;#SubjectMap&gt; ;                       # Specify the subject
-    rr:predicateObjectMap &lt;#NameMapping&gt; .              # Specify the predicate-object-map
+    rml:logicalSource &lt;#LogicalSource&gt; ;                  # Specify the data source
+    rr:subjectMap &lt;#SubjectMap&gt; ;                         # Specify the subject
+    rr:predicateObjectMap &lt;#NameMapping&gt; .                # Specify the predicate-object-map
 
 &lt;#NameMapping&gt;
-    rr:predicate dbo:title ;                            # Specify the predicate
-    rr:objectMap <strong>&lt;#FunctionMap&gt;</strong> .                       # Specify the object-map
+    rr:predicate dbo:title ;                              # Specify the predicate
+    rr:objectMap <strong>&lt;#FunctionMap&gt;</strong> .                         # Specify the object-map
 
 &lt;#FunctionMap&gt;
-    fnml:functionValue [                                # The object is the result of the function
-        rml:logicalSource &lt;#LogicalSource&gt; ;            # Use the same data source for input
+    fnml:functionValue [                                  # The object is the result of the function
+        rml:logicalSource &lt;#LogicalSource&gt; ;              # Use the same data source for input
         rr:predicateObjectMap [
-            rr:predicate fno:executes ;                 # Execute the function&hellip;
-            rr:objectMap [ rr:constant grel:titleCase ] # grel:titleCase
+            rr:predicate fno:executes ;                   # Execute the function&hellip;
+            rr:objectMap [ rr:constant grel:toUppercase ] # grel:toUppercase
         ] ;
         rr:predicateObjectMap [
             rr:predicate grel:inputString ;
-            rr:objectMap [ rr:reference "name" ]        # Use as input the "name" reference
+            rr:objectMap [ rr:reference "name" ]          # Use as input the "name" reference
         ]
     ] .
                     </code>
@@ -256,7 +256,7 @@ grel:toTitleCase a fno:Function ;
                 <p>
                     Before the <code>name</code>-value is referenced,
                     the value is first used as <code>grel:inputString</code>-parameter
-                    for the <code>grel:titleCase</code>-function.
+                    for the <code>grel:toUppercase</code>-function.
                     The output of that function is then used as object
                     within the <code>&lt;#NameMapping&gt;</code>
                 </p>
