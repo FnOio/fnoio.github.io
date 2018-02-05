@@ -16,3 +16,7 @@ section.success a {
         padding-bottom: 100px;
     }
 }
+
+pre code {
+    white-space: pre;
+}
