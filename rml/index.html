@@ -221,7 +221,7 @@ grel:toUppercase a fno:Function ;
 
                 <blockquote>
                     <p>
-                        The <code>fnml</code> prefix is hosted at
+                        The <code>fnml</code> namespace is hosted at
                         <a href="http://semweb.mmlab.be/ns/fnml#" target="_blank">http://semweb.mmlab.be/ns/fnml#</a>
                     </p>
                 </blockquote>
@@ -267,6 +267,46 @@ grel:toUppercase a fno:Function ;
                     The output of that function is then used as object
                     within the <code>&lt;#NameMapping&gt;</code>
                 </p>
+            </div>
+        </div>
+
+        <div class="row" id="example-dbpedia">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p>
+                    A full example of a DBpedia mapping file can be found below.
+                </p>
+
+                <pre><code>
+@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt;.
+@prefix rml: &lt;http://semweb.mmlab.be/ns/rml#&gt;.
+
+&lt;#WikiSource&gt; rml:source "http://en.wikipedia.org/wiki/Mapping_en:Infobox_country?oldid=35237";
+    rml:referenceFormulation &lt;http://semweb.mmlab.be/ns/ql#wikitext&gt;;
+    rml:iterator "Infobox" .
+
+&lt;http://en.dbpedia.org/resource/Mapping_en:Infobox_country&gt; rml:logicalSource &lt;#WikiSource&gt;;
+  rr:subjectMap [ rr:constant "http://en.dbpedia.org/resource/{{wikititle}}" ];
+  rr:predicateObjectMap [
+    rr:predicate &lt;http://dbpedia.org/ontology/demonym&gt;;
+    rr:objectMap [
+      &lt;http://semweb.mmlab.be/ns/fnml#functionValue&gt; [
+        rr:subjectMap [];
+        rr:predicateObjectMap [
+          rr:predicate &lt;http://dbpedia.org/function/propertyParameter&gt;;
+          rr:objectMap [ rml:reference "demonym" ]
+        ], [
+          rr:predicate &lt;http://dbpedia.org/function/dataTypeParameter&gt;;
+          rr:objectMap [ rr:constant "rdf:langString" ]
+        ], [
+          rr:predicate &lt;http://w3id.org/function/ontology#executes&gt;;
+          rr:objectMap [ rr:constant &lt;http://dbpedia.org/function/simplePropertyFunction&gt; ]
+        ];
+        rml:logicalSource &lt;#WikiSource&gt;
+      ]
+    ]
+  ]
+] .
+                </code></pre>
             </div>
         </div>
     </div>
