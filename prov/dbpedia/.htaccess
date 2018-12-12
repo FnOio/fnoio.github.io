@@ -1,0 +1,1 @@
+RewriteRule /prov/dbpedia/iswc2017-semsci /prov/dbpedia/iswc2017-semsci.ttl [L,R]

@@ -1,0 +1,98 @@
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix fnml: <http://semweb.datasciencelab.be/ns/fnml#> .
+@prefix fno: <http://w3id.org/function/ontology#> .
+@prefix grel: <http://semweb.datasciencelab.be/ns/grel#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+@prefix : <https://fno.io/prov/dbpedia/iswc2017-semsci#> .
+
+:Person_TemplateMapping
+    rml:logicalSource :Person_LogicalSource ;
+    rr:subjectMap :Person_SubjectMap ;
+    rr:predicateObjectMap :NameMapping .
+
+:Person_SubjectMap
+    rr:template "http://example.org/{id}" ;
+    rr:class :Person .
+
+:NameMap
+    rr:predicate :name ;
+    rr:objectMap [
+        a fnml:FunctionTermMap ;
+        fnml:functionValue [
+            rml:logicalSource :Person_LogicalSource ;
+            rr:predicateObjectMap [
+                rr:predicate fno:executes ;
+                rr:objectMap [ rr:constant grel:toTitleCase ] ] ;
+            rr:predicateObjectMap [
+                rr:predicate grel:valueParameter ;
+                rr:objectMap [ rml:reference "name" ] ]
+        ]
+    ] .
+
+grel:toUppercase :implementedIn :grelJavaImpl .
+:grelJavaImpl a prov:Agent;
+    prov:type prov:SoftwareAgent ;
+    doap:file-release <http://example.com/grelFunctions.jar> .
+
+<http://example.com/grelFunctions.jar> a spdx:File ;
+    spdx:checksum [
+        spdx:algorithm spdx:checksumAlgorithm_sha1 ;
+        spdx:checksumValue "ffbdbf69f1572ea6a9f2da9a351a480f30070312"
+    ] .
+
+grel:toTitleCase a fno:Function, prov:Entity ;
+    fno:name "title case" ;
+    fno:expects ( [ fno:predicate grel:stringInput ] ) ;
+    fno:output ( [ fno:predicate grel:stringOutput ] ) .
+
+:exe a fno:Execution, prov:Activity ;
+    :implementation :grelJavaImpl ;
+    fno:executes grel:toTitleCase ;
+    grel:stringInput :input ;
+    grel:stringOutput :output .
+
+:input a prov:Entity ; rdf:value "ben de meester" .
+:output a prov:Entity ; rdf:value "Ben De Meester" .
+
+:RDF_Dataset a prov:Entity, void:Dataset;
+    prov:generatedAtTime "2016-01-05T17:10:00Z"^^xsd:dateTime;
+    prov:wasGeneratedBy :NameMapping;
+    prov:wasDerivedFrom :Person_LogicalSource;
+    prov:wasAssociatedWith :RMLProcessor;
+    dcterms:creator <http://rml.io/people/AnastasiaDimou>;
+    dcterms:created "2016-01-05T17:10:00Z"^^xsd:dateTime;
+    dcterms:modified "2016-01-05T17:12:00Z"^^xsd:dateTime;
+    dcterms:issued "2016-01-07T10:10:00Z"^^xsd:dateTime.
+
+:NameMapping a prov:Activity ;
+    prov:generated :RDF_Dataset;
+    prov:startedAtTime "2017-02-28T17:00:00Z"^^xsd:dateTime;
+    prov:endedAtTime "2017-02-28T17:10:00Z"^^xsd:dateTime;
+    prov:wasInformedBy <#MapDoc_Generation>;
+    prov:used :NameMap, :Person_LogicalSource .
+
+:RMLProcessor a prov:Agent;
+    prov:type prov:SoftwareAgent ;
+    doap:release <https://github.com/RMLio/RML-Mapper> .
+
+:exe a prov:Activity ;
+    prov:wasInformedBy :NameMapping ;
+    prov:used :input ;
+    prov:used grel:toTitleCase ;
+    prov:wasAssociatedWith :grelJavaImpl ;
+    prov:startedAtTime "2017-02-28T17:01:00Z"^^xsd:dateTime ;
+    prov:endedAtTime "2017-02-28T17:02:00Z"^^xsd:dateTime .
+
+:output a prov:Entity ;
+    prov:wasGeneratedBy :exe ;
+    prov:wasAttributedTo :grelJavaImpl .
+
+grel:toUppercase :implements :grelJavaImpl .
