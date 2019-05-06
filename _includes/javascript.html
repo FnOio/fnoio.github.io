@@ -1,0 +1,45 @@
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {
+    $(window).scroll(function () {
+      if ($(this).scrollTop() > 50) {
+        $('#back-to-top').fadeIn();
+      } else {
+        $('#back-to-top').fadeOut();
+      }
+    });
+    // scroll body to 0px on click
+    $('#back-to-top').click(function () {
+      $('#back-to-top').tooltip('hide');
+      $('body,html').animate({
+        scrollTop: 0
+      }, 800);
+      return false;
+    });
+
+    $('#back-to-top').tooltip('show');
+
+  });
+</script>
+<script>
+  $(function () {
+    var $year = $('#year');
+    var startYear = $year.attr('data-year-start');
+    var currYear = '' + (new Date()).getFullYear();
+    var text = startYear;
+    if (startYear !== currYear) {
+      text += '  &ndash; ' + currYear;
+    }
+    $year.html(text);
+
+    var mailParts = {ben: ['ben', 'demeester'], anastasia: ['anastasia', 'dimou']};
+    var mailEnd = '@ugent.be';
+    var mailBen = mailParts.ben.join('.') + mailEnd;
+    var mailAnastasia = mailParts.anastasia.join('.') + mailEnd;
+
+    $('#mailBen').html('<a href="mail:' + mailBen + '">' + mailBen + '</a>');
+    $('#mailAnastasia').html('<a href="mail:' + mailAnastasia + '">' + mailAnastasia + '</a>');
+  });
+</script>

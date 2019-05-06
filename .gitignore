@@ -1,1 +1,7 @@
 .idea/
+
+vendor
+.bundle
+
+.sass-cache
+_site

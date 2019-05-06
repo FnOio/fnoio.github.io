@@ -1,0 +1,9 @@
+name: "FnO: The Function Ontology"
+title: "FnO: The Function Ontology"
+exclude: ['./.idea', 'vendor']
+baseurl: '/'
+url: 'https://fno.io'
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-last-modified-at
