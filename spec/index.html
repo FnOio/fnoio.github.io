@@ -481,16 +481,16 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
         "key": "This Version",
         "data": [
         {
-          "value": "https://w3id.org/function/spec/20190318/",
-          "href": "https://w3id.org/function/spec/20190318/"
+          "value": "https://w3id.org/function/spec/20190521/",
+          "href": "https://w3id.org/function/spec/20190521/"
         }]
       },
       {
         "key": "Previous Version",
         "data": [
         {
-          "value": "https://w3id.org/function/spec/20181016/",
-          "href": "https://w3id.org/function/spec/20181016/"
+          "value": "https://w3id.org/function/spec/20190318/",
+          "href": "https://w3id.org/function/spec/20190318/"
         }]
       },
       {
@@ -503,14 +503,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       }]
     }
   </script>
-  <meta name="generator" content="ReSpec 5.0.4">
 </head>
-<body class="h-entry toc-inline" role="document" id="respecDocument">
+<body class="h-entry" role="document" id="respecDocument">
   <div class="head" role="contentinfo" id="respecHeader">
     <p>
     </p>
     <h1 class="title p-name" id="title" property="dcterms:title">The Function Ontology</h1>
-    <h2 id="unofficial-draft-18-march-2019">Unofficial Draft <time property="dcterms:issued" class="dt-published" datetime="2019-03-18">18 March 2019</time></h2>
+    <h2 id="unofficial-draft-21-may-2019">Unofficial Draft <time property="dcterms:issued" class="dt-published" datetime="2019-05-21">21 May 2019</time></h2>
     <dl>
       <dt>Latest editor's draft:</dt>
       <dd><a href="https://w3id.org/function/spec/">https://w3id.org/function/spec/</a></dd>
@@ -524,14 +523,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
       <dt>This Version:</dt>
       <dd>
-        <a href="https://w3id.org/function/spec/20190318/">
-                      https://w3id.org/function/spec/20190318/
+        <a href="https://w3id.org/function/spec/20190521/">
+                      https://w3id.org/function/spec/20190521/
                     </a>
       </dd>
       <dt>Previous Version:</dt>
       <dd>
-        <a href="https://w3id.org/function/spec/20181016/">
-                      https://w3id.org/function/spec/20181016/
+        <a href="https://w3id.org/function/spec/20190318/">
+                      https://w3id.org/function/spec/20190318/
                     </a>
       </dd>
       <dt>Website:</dt>
@@ -577,7 +576,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
       <p>The preferred prefix is <code>fno:</code></p>
 
-      <p>The discussed ontology's version is <a href="https://w3id.org/function/ontology/0.5.0">0.5.0</a></p>
+      <p>The discussed ontology's version is <a href="https://w3id.org/function/ontology/0.5.1">0.5.1</a>.</p>
+
+      <p>
+        The used vocabularies are the <a href="https://w3id.org/function/vocabulary/mapping">FnO mapping vocabulary (<code>fnom:</code>)</a> and the <a href="https://w3id.org/function/vocabulary/implementation">FnO implementation vocabulary (<code>fnoi:</code>)</a>.
+      </p>
     </section>
   </section>
 
@@ -1069,14 +1072,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
           </h5>
 
           <p>
-            Maps the method name. For source code, this can be done using a <code>fni:StringMethodMapping</code>. The method name is an attribute of a <code>fni:StringMethodMapping</code>, linked using the <code>fni:method-name</code> predicate.
+            Maps the method name. For source code, this can be done using a <code>fnom:StringMethodMapping</code>. The method name is an attribute of a <code>fnom:StringMethodMapping</code>, linked using the <code>fnom:method-name</code> predicate.
           </p>
 
           <div class="example">
             <div class="example-title marker"><span>Example 12</span></div><pre class="highlight hljs javascript">ex:leftPadMapping a fno:Mapping ;
     fno:methodMapping [
-        a fni:StringMethodMapping ;
-        fni:method-name <span class="hljs-string">"doLeftPadding"</span>
+        a fnom:StringMethodMapping ;
+        fnom:method-name <span class="hljs-string">"doLeftPadding"</span>
     ] .</pre></div>
         </section>
 
@@ -1086,19 +1089,19 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
           <p>
             Maps the different parameters. For source code, this is typically specified by the position, using
-            <code>fni:PositionParameterMapping</code>: each <code>fno:ParameterMapping</code> gets linked to a parameter using the <code>fni:functionParameter</code> predicate, and to a position using the <code>fni:implementationParameterPosition</code> predicate.
+            <code>fnom:PositionParameterMapping</code>: each <code>fno:ParameterMapping</code> gets linked to a parameter using the <code>fnom:functionParameter</code> predicate, and to a position using the <code>fnom:implementationParameterPosition</code> predicate.
           </p>
 
           <div class="example">
             <div class="example-title marker"><span>Example 13</span></div><pre class="highlight hljs javascript">ex:leftPadMapping a fno:Mapping ;
     fno:parameterMapping [
-        a fni:PositionParameterMapping ;
-        fni:functionParameter ex:inputStringParameter ;
-        fni:implementationParameterPosition <span class="hljs-string">"2"</span>^^xsd:int
+        a fnom:PositionParameterMapping ;
+        fnom:functionParameter ex:inputStringParameter ;
+        fnom:implementationParameterPosition <span class="hljs-string">"2"</span>^^xsd:int
     ] .</pre></div>
 
           <p>
-            For a Web service, this is typically specified by a name, e.g., a POST using property "password" in the form body. A <code>fni:PropertyParameterMapping</code> is used. Each <code>fno:ParameterMapping</code> gets linked to a parameter using the <code>fni:functionParameter</code> predicate, and to a property using the <code>fni:implementationProperty</code> predicate.
+            For a Web service, this is typically specified by a name, e.g., a POST using property "password" in the form body. A <code>fnom:PropertyParameterMapping</code> is used. Each <code>fno:ParameterMapping</code> gets linked to a parameter using the <code>fnom:functionParameter</code> predicate, and to a property using the <code>fnom:implementationProperty</code> predicate.
           </p>
         </section>
 
@@ -1154,18 +1157,18 @@ ex:leftPadMapping a fno:Mapping ;
     fno:function ex:leftPad ;
     fno:implementation ex:leftPadImplementation ;
     fno:methodMapping [
-        a fni:StringMethodMapping ;
-        fni:method-name <span class="hljs-string">"doLeftPadding"</span>
+        a fnom:StringMethodMapping ;
+        fnom:method-name <span class="hljs-string">"doLeftPadding"</span>
     ] ;
     fno:parameterMapping [
-        a fni:PositionParameterMapping ;
-        fni:functionParameter ex:inputStringParameter ;
-        fni:implementationParameterPosition <span class="hljs-string">"2"</span>^^xsd:int
+        a fnom:PositionParameterMapping ;
+        fnom:functionParameter ex:inputStringParameter ;
+        fnom:implementationParameterPosition <span class="hljs-string">"2"</span>^^xsd:int
     ] ;
     fno:parameterMapping [
-        a fni:PositionParameterMapping ;
-        fni:functionParameter ex:paddingParameter ;
-        fni:implementationParameterPosition <span class="hljs-string">"1"</span>^^xsd:int
+        a fnom:PositionParameterMapping ;
+        fnom:functionParameter ex:paddingParameter ;
+        fnom:implementationParameterPosition <span class="hljs-string">"1"</span>^^xsd:int
     ] .</pre></div>
       </section>
     </section>

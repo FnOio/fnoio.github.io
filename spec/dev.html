@@ -175,7 +175,12 @@
 
         <p>The preferred prefix is <code>fno:</code></p>
 
-        <p>The discussed ontology's version is <a href="https://w3id.org/function/ontology/0.5.0">0.5.0</a></p>
+        <p>The discussed ontology's version is <a href="https://w3id.org/function/ontology/0.5.1">0.5.1</a>.</p>
+
+        <p>
+            The used vocabularies are the <a href="https://w3id.org/function/vocabulary/mapping">FnO mapping vocabulary (<code>fnom:</code>)</a>
+            and the <a href="https://w3id.org/function/vocabulary/implementation">FnO implementation vocabulary (<code>fnoi:</code>)</a>.
+        </p>
     </section>
 </section>
 
@@ -628,16 +633,16 @@ ex:leftPadMapping a fno:Mapping ;
 
                 <p>
                     Maps the method name.
-                    For source code, this can be done using a <code>fni:StringMethodMapping</code>.
-                    The method name is an attribute of a <code>fni:StringMethodMapping</code>,
-                    linked using the <code>fni:method-name</code> predicate.
+                    For source code, this can be done using a <code>fnom:StringMethodMapping</code>.
+                    The method name is an attribute of a <code>fnom:StringMethodMapping</code>,
+                    linked using the <code>fnom:method-name</code> predicate.
                 </p>
 
                 <pre class="example highlight">
 ex:leftPadMapping a fno:Mapping ;
     fno:methodMapping [
-        a fni:StringMethodMapping ;
-        fni:method-name "doLeftPadding"
+        a fnom:StringMethodMapping ;
+        fnom:method-name "doLeftPadding"
     ] .
                 </pre>
             </section>
@@ -648,28 +653,28 @@ ex:leftPadMapping a fno:Mapping ;
                 <p>
                     Maps the different parameters.
                     For source code, this is typically specified by the position, using
-                    <code>fni:PositionParameterMapping</code>:
+                    <code>fnom:PositionParameterMapping</code>:
                     each <code>fno:ParameterMapping</code> gets linked
-                    to a parameter using the <code>fni:functionParameter</code> predicate,
-                    and to a position using the <code>fni:implementationParameterPosition</code> predicate.
+                    to a parameter using the <code>fnom:functionParameter</code> predicate,
+                    and to a position using the <code>fnom:implementationParameterPosition</code> predicate.
                 </p>
 
                 <pre class="example highlight">
 ex:leftPadMapping a fno:Mapping ;
     fno:parameterMapping [
-        a fni:PositionParameterMapping ;
-        fni:functionParameter ex:inputStringParameter ;
-        fni:implementationParameterPosition "2"^^xsd:int
+        a fnom:PositionParameterMapping ;
+        fnom:functionParameter ex:inputStringParameter ;
+        fnom:implementationParameterPosition "2"^^xsd:int
     ] .
                 </pre>
 
                 <p>
                     For a Web service, this is typically specified by a name,
                     e.g., a POST using property "password" in the form body.
-                    A <code>fni:PropertyParameterMapping</code> is used.
+                    A <code>fnom:PropertyParameterMapping</code> is used.
                     Each <code>fno:ParameterMapping</code> gets linked
-                    to a parameter using the <code>fni:functionParameter</code> predicate,
-                    and to a property using the <code>fni:implementationProperty</code> predicate.
+                    to a parameter using the <code>fnom:functionParameter</code> predicate,
+                    and to a property using the <code>fnom:implementationProperty</code> predicate.
                 </p>
             </section>
 
@@ -724,18 +729,18 @@ ex:leftPadMapping a fno:Mapping ;
     fno:function ex:leftPad ;
     fno:implementation ex:leftPadImplementation ;
     fno:methodMapping [
-        a fni:StringMethodMapping ;
-        fni:method-name "doLeftPadding"
+        a fnom:StringMethodMapping ;
+        fnom:method-name "doLeftPadding"
     ] ;
     fno:parameterMapping [
-        a fni:PositionParameterMapping ;
-        fni:functionParameter ex:inputStringParameter ;
-        fni:implementationParameterPosition "2"^^xsd:int
+        a fnom:PositionParameterMapping ;
+        fnom:functionParameter ex:inputStringParameter ;
+        fnom:implementationParameterPosition "2"^^xsd:int
     ] ;
     fno:parameterMapping [
-        a fni:PositionParameterMapping ;
-        fni:functionParameter ex:paddingParameter ;
-        fni:implementationParameterPosition "1"^^xsd:int
+        a fnom:PositionParameterMapping ;
+        fnom:functionParameter ex:paddingParameter ;
+        fnom:implementationParameterPosition "1"^^xsd:int
     ] .
             </pre>
         </section>
