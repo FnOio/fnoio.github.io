@@ -440,6 +440,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   </script>
   <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2016/W3C-UD">
   <!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]-->
+  <meta name="generator" content="ReSpec 5.0.4">
   <script id="initialUserConfig" type="application/json">
     {
       "localBiblio":
@@ -509,7 +510,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     <p>
     </p>
     <h1 class="title p-name" id="title" property="dcterms:title">The Function Ontology</h1>
-    <h2 id="unofficial-draft-21-may-2019">Unofficial Draft <time property="dcterms:issued" class="dt-published" datetime="2019-05-21">21 May 2019</time></h2>
+    <h2 id="unofficial-draft-29-may-2019">Unofficial Draft <time property="dcterms:issued" class="dt-published" datetime="2019-05-29">29 May 2019</time></h2>
     <dl>
       <dt>Latest editor's draft:</dt>
       <dd><a href="https://w3id.org/function/spec/">https://w3id.org/function/spec/</a></dd>
@@ -576,7 +577,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
       <p>The preferred prefix is <code>fno:</code></p>
 
-      <p>The discussed ontology's version is <a href="https://w3id.org/function/ontology/0.5.1">0.5.1</a>.</p>
+      <p>The discussed ontology's version is <a href="https://w3id.org/function/ontology/0.6.0">0.6.0</a>.</p>
 
       <p>
         The used vocabularies are the <a href="https://w3id.org/function/vocabulary/mapping">FnO mapping vocabulary (<code>fnom:</code>)</a> and the <a href="https://w3id.org/function/vocabulary/implementation">FnO implementation vocabulary (<code>fnoi:</code>)</a>.
@@ -645,6 +646,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
                 <ol class="toc">
                   <li class="tocline"><a href="#fno-MethodMapping" class="tocxref"><span class="secno">3.2.2.1 </span><code>fno:MethodMapping</code></a></li>
                   <li class="tocline"><a href="#fno-ParameterMapping" class="tocxref"><span class="secno">3.2.2.2 </span><code>fno:ParameterMapping</code></a></li>
+                  <li class="tocline"><a href="#fno-ReturnMapping" class="tocxref"><span class="secno">3.2.2.3 </span><code>fno:ReturnMapping</code></a></li>
                 </ol>
               </li>
               <li class="tocline"><a href="#full-example" class="tocxref"><span class="secno">3.2.3 </span>Full example</a></li>
@@ -1012,7 +1014,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
       </h3>
 
       <figure id="fig-the-function-ontology-linked-to-implementations">
-        <img src="../resources/images/fno-full.png" alt="The Function Ontology">
+        <img src="../resources/images/fno-full_0.6.0.png" alt="The Function Ontology">
         <figcaption>Fig. <span class="figno">2</span> <span class="fig-title">The Function Ontology, linked to implementations</span></figcaption>
       </figure>
 
@@ -1055,7 +1057,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
         </h4>
 
         <p>
-          A <code>fno:Mapping</code> maps a <code>fno:Function</code> to a (part) of an <code>fno:Implementation</code>. For example: a left-pad function is mapped to a specific method in an NPM package. This requires the combination of 2 types of mappings: the mapping of the method name (so that, e.g., a <code>ex:leftPad</code> function is mapped to method <code>doLeftPadding()</code>, and the mapping of the parameters (so that, e.g., the argument with predicate <code>ex:inputString</code> of the function is mapped to the second parameter of the <code>doLeftPadding()</code> method. To link to the function and implementation, predicates <code>fno:function</code> and <code>fno:implementation</code> are used, respectively.
+          A <code>fno:Mapping</code> maps a <code>fno:Function</code> to a (part) of an <code>fno:Implementation</code>. For example: a left-pad function is mapped to a specific method in an NPM package. This requires the combination of 3 types of mappings: the mapping of the method name (so that, e.g., a <code>ex:leftPad</code> function is mapped to method <code>doLeftPadding()</code>), the mapping of the parameters (so that, e.g., the argument with predicate <code>ex:inputString</code> of the function is mapped to the second parameter of the <code>doLeftPadding()</code> method), and the mapping of the outputs (so that, e.g., both the return value and the thrown exception of the method are mapping to the outputs of the function). To link to the function and implementation, predicates <code>fno:function</code> and <code>fno:implementation</code> are used, respectively.
         </p>
 
         <p>
@@ -1105,6 +1107,23 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
           </p>
         </section>
 
+        <section typeof="bibo:Chapter" resource="#fno-ReturnMapping" property="bibo:hasPart">
+          <h5 id="fno-ReturnMapping" resource="#fno-ReturnMapping"><span property="xhv:role" resource="xhv:heading"><span class="secno">3.2.2.3 </span><code>fno:ReturnMapping</code></span>
+          </h5>
+
+          <p>
+            Maps the different outputs. For source code, this is typically specified by the return value, and (optionally) thrown exceptions, using
+            <code>fnom:DefaultReturnMapping</code> and <code>fnom:ExceptionReturnMapping</code>, respectively: each <code>fno:ReturnMapping</code> gets linked to an output using the <code>fnom:functionOutput</code> predicate.
+          </p>
+
+          <div class="example">
+            <div class="example-title marker"><span>Example 14</span></div><pre class="highlight hljs">ex:leftPadMapping a fno:Mapping ;
+    fno:returnMapping [
+        a fnom:DefaultReturnMapping ;
+        fnom:functionOutput ex:outputStringOutput
+    ] .</pre></div>
+        </section>
+
         <!--<section>-->
         <!--<h3 id="hydra-mapping">Example: Hydra Mapping</h3>-->
 
@@ -1136,7 +1155,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
         </h4>
 
         <div class="example">
-          <div class="example-title marker"><span>Example 14</span></div><pre class="highlight hljs xquery">ex:leftPad a fno:Function ;
+          <div class="example-title marker"><span>Example 15</span></div><pre class="highlight hljs xquery">ex:leftPad a fno:Function ;
     fno:expects ( ex:inputStringParameter ex:paddingParameter ) ;
     fno:returns ( ex:outputStringOutput ) .
 
@@ -1169,6 +1188,10 @@ ex:leftPadMapping a fno:Mapping ;
         a fnom:PositionParameterMapping ;
         fnom:functionParameter ex:paddingParameter ;
         fnom:implementationParameterPosition <span class="hljs-string">"1"</span>^^xsd:int
+    ] ;
+    fno:returnMapping [
+        a fnom:DefaultReturnMapping ;
+        fnom:functionOutput ex:outputStringOutput
     ] .</pre></div>
       </section>
     </section>
@@ -1211,7 +1234,7 @@ ex:leftPadMapping a fno:Mapping ;
       </p>
 
       <div class="example">
-        <div class="example-title marker"><span>Example 15</span></div><pre class="highlight hljs javascript">ex:findInString a fno:<span class="hljs-built_in">Function</span>;
+        <div class="example-title marker"><span>Example 16</span></div><pre class="highlight hljs javascript">ex:findInString a fno:<span class="hljs-built_in">Function</span>;
     fno:name <span class="hljs-string">"Finding multiple values in a string function"</span>^^xsd:string;
     dcterms:description <span class="hljs-string">"This function returns true if any of the input values is found in the string."</span>^^xsd:string;
     fno:expects (
