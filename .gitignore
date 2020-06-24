@@ -5,3 +5,6 @@ vendor
 
 .sass-cache
 _site
+
+#spec/*
+#!spec/README.md
