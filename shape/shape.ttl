@@ -60,16 +60,14 @@ fnosh:ProblemShape
 
 fnosh:AlgorithmShape
     a              sh:NodeShape ;
-    sh:targetClass fno:Algorithm.
+    sh:targetClass fno:Algorithm .
 
-        fnosh:ExecutionShape
-  a sh:NodeShape ;
-  sh:targetClass fno:Execution ;
-  sh:property [
-    sh:path fno:executes ;
-    sh:maxCount 1;
-        sh:node fnosh:FunctionShape ] .
-
+fnosh:ExecutionShape
+    a              sh:NodeShape ;
+    sh:targetClass fno:Execution ;
+    sh:property    [ sh:path     fno:executes ;
+                     sh:maxCount 1 ;
+                     sh:node     fnosh:FunctionShape ] .
 
 fnosh:ListShape
     a            sh:NodeShape ;
@@ -97,7 +95,7 @@ fnosh:ListNodeShape
                    sh:property [ sh:path     rdf:first ;
                                  sh:maxCount 1 ;
                                  sh:minCount 1 ;
-                               # TODO set what kind of thinky ] ;
-                   sh:property [ sh:path     rdf:rest ;
-                                 sh:maxCount 1 ;
-                                 sh:minCount 1 ; ] ; ] ) .
+                 # TODO set what kind of thinky ] ;
+                                 sh:property [ sh:path     rdf:rest ;
+                                               sh:maxCount 1 ;
+                                               sh:minCount 1 ; ] ; ] ] ) .

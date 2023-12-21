@@ -85,25 +85,25 @@ nav: |
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <p>
-                    We generate Linked Data using an RML document, that generates <code>ex:Person</code>-resources.
-                </p>
+                {% renderTemplate "md" %}
+                    We generate Linked Data using an RML document, that generates `ex:Person`-resources.
+                {% endrenderTemplate %}
             </div>
             <div class="col-lg-6">
-                <pre>
-                    <code>
-&lt;#Person_Mapping&gt;
-    rml:logicalSource &lt;#LogicalSource&gt; ;      # Specify the data source
-    rr:subjectMap &lt;#SubjectMap&gt; ;             # Specify the subject
-    rr:predicateObjectMap &lt;#NameMapping&gt; .    # Specify the predicate-object-map
+{% renderTemplate "md" %}
+```turtle
+<#Person_Mapping>
+    rml:logicalSource <#LogicalSource> ;      # Specify the data source
+    rr:subjectMap <#SubjectMap> ;             # Specify the subject
+    rr:predicateObjectMap <#NameMapping> .    # Specify the predicate-object-map
 
-&lt;#NameMapping&gt;
+<#NameMapping>
     rr:predicate dbo:title ;                  # Specify the predicate
     rr:objectMap [
         rr:reference "name"                   # Specify the reference within the data source
     ] .
-                    </code>
-                </pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
         <div class="row">
@@ -124,15 +124,15 @@ nav: |
                 </p>
             </div>
             <div class="col-lg-6">
-                <pre>
-                    <code>
-grel:toUppercase a fno:Function ;
+{% renderTemplate "md" %}
+```turtle
+grel:toUpperCase a fno:Function ;
     fno:name "upper case" ;
     dcterms:description "return the input string in upper case" ;
     fno:expects ( [ fno:predicate grel:stringInput ] ) ;
     fno:output ( [ fno:predicate grel:stringOutput ] ) .
-                    </code>
-                </pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
 
@@ -143,14 +143,14 @@ grel:toUppercase a fno:Function ;
                 </p>
             </div>
             <div class="col-lg-6">
-                <pre>
-                    <code>
+{% renderTemplate "md" %}
+```turtle
 :exe a fno:Execution ;
     fno:executes grel:toUppercase ;
     grel:stringInput "This is an input STRING." ;
     grel:stringOutput "THIS IS AN INPUT STRING." .
-                    </code>
-                </pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
 
@@ -171,20 +171,20 @@ grel:toUppercase a fno:Function ;
 
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <pre>
-                    <code>
-&lt;#Person_Mapping&gt;
-    rml:logicalSource &lt;#LogicalSource&gt; ;                  # Specify the data source
-    rr:subjectMap &lt;#SubjectMap&gt; ;                         # Specify the subject
-    rr:predicateObjectMap &lt;#NameMapping&gt; .                # Specify the predicate-object-map
+{% renderTemplate "md" %}
+```turtle
+<#Person_Mapping>
+    rml:logicalSource <#LogicalSource> ;                  # Specify the data source
+    rr:subjectMap <#SubjectMap> ;                         # Specify the subject
+    rr:predicateObjectMap <#NameMapping> .                # Specify the predicate-object-map
 
-&lt;#NameMapping&gt;
+<#NameMapping>
     rr:predicate dbo:title ;                              # Specify the predicate
-    rr:objectMap <strong>&lt;#FunctionMap&gt;</strong> .                         # Specify the object-map
+    rr:objectMap <#FunctionMap> .                         # Specify the object-map
 
-&lt;#FunctionMap&gt;
+<#FunctionMap>
     fnml:functionValue [                                  # The object is the result of the function
-        rml:logicalSource &lt;#LogicalSource&gt; ;              # Use the same data source for input
+        rml:logicalSource <#LogicalSource> ;              # Use the same data source for input
         rr:predicateObjectMap [
             rr:predicate fno:executes ;                   # Execute the function&hellip;
             rr:objectMap [ rr:constant grel:toUppercase ] # grel:toUppercase
@@ -194,8 +194,8 @@ grel:toUppercase a fno:Function ;
             rr:objectMap [ rr:reference "name" ]          # Use as input the "name" reference
         ]
     ] .
-                    </code>
-                </pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
         
@@ -217,37 +217,39 @@ grel:toUppercase a fno:Function ;
                     A full example of a DBpedia mapping file can be found below.
                 </p>
 
-                <pre><code>
-@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt;.
-@prefix rml: &lt;http://semweb.mmlab.be/ns/rml#&gt;.
+{% renderTemplate "md" %}
+```turtle
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 
-&lt;#WikiSource&gt; rml:source "http://en.wikipedia.org/wiki/Mapping_en:Infobox_country?oldid=35237";
-    rml:referenceFormulation &lt;http://semweb.mmlab.be/ns/ql#wikitext&gt;;
+<#WikiSource> rml:source "http://en.wikipedia.org/wiki/Mapping_en:Infobox_country?oldid=35237";
+    rml:referenceFormulation <http://semweb.mmlab.be/ns/ql#wikitext>;
     rml:iterator "Infobox" .
 
-&lt;http://en.dbpedia.org/resource/Mapping_en:Infobox_country&gt; rml:logicalSource &lt;#WikiSource&gt;;
+<http://en.dbpedia.org/resource/Mapping_en:Infobox_country> rml:logicalSource <#WikiSource>;
   rr:subjectMap [ rr:constant "http://en.dbpedia.org/resource/{{wikititle}}" ];
   rr:predicateObjectMap [
-    rr:predicate &lt;http://dbpedia.org/ontology/demonym&gt;;
+    rr:predicate <http://dbpedia.org/ontology/demonym>;
     rr:objectMap [
-      &lt;http://semweb.mmlab.be/ns/fnml#functionValue&gt; [
+      <http://semweb.mmlab.be/ns/fnml#functionValue> [
         rr:subjectMap [];
         rr:predicateObjectMap [
-          rr:predicate &lt;http://dbpedia.org/function/propertyParameter&gt;;
+          rr:predicate <http://dbpedia.org/function/propertyParameter>;
           rr:objectMap [ rml:reference "demonym" ]
         ], [
-          rr:predicate &lt;http://dbpedia.org/function/dataTypeParameter&gt;;
+          rr:predicate <http://dbpedia.org/function/dataTypeParameter>;
           rr:objectMap [ rr:constant "rdf:langString" ]
         ], [
-          rr:predicate &lt;http://w3id.org/function/ontology#executes&gt;;
-          rr:objectMap [ rr:constant &lt;http://dbpedia.org/function/simplePropertyFunction&gt; ]
+          rr:predicate <http://w3id.org/function/ontology#executes>;
+          rr:objectMap [ rr:constant <http://dbpedia.org/function/simplePropertyFunction> ]
         ];
-        rml:logicalSource &lt;#WikiSource&gt;
+        rml:logicalSource <#WikiSource>
       ]
     ]
   ]
 ] .
-                </code></pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
     </div>

@@ -86,33 +86,31 @@ nav: |
                 </p>
             </div>
             <div class="col-lg-6">
-                <pre>
-                    <code>
+{% renderTemplate "md" %}
+```turtle
 :Person_TemplateMapping
     rml:logicalSource :Person_LogicalSource ;
     rr:subjectMap :Person_SubjectMap ;
-    <strong>rr:predicateObjectMap :NameMapping</strong> .
-
+    rr:predicateObjectMap :NameMapping .
 :Person_SubjectMap
     rr:template "http://example.org/{id}" ;
     rr:class ex:Person .
-
-<strong>:NameMapping</strong>
+:NameMapping
     rr:predicate dbo:name ;
     rr:objectMap [
         a fnml:FunctionTermMap ;
         fnml:functionValue [
             rml:logicalSource :Person_LogicalSource ;
             rr:predicateObjectMap [
-                rr:predicate <strong>fno:executes</strong> ;
-                rr:objectMap [ rr:constant <strong>grel:toTitleCase</strong> ] ] ;
+                rr:predicate fno:executes ;
+                rr:objectMap [ rr:constant grel:toTitleCase ] ] ;
             rr:predicateObjectMap [
-                rr:predicate <strong>grel:valueParameter</strong> ;
-                rr:objectMap [ <strong>rml:reference "name"</strong> ] ]
+                rr:predicate grel:valueParameter ;
+                rr:objectMap [ rml:reference "name" ] ]
         ]
     ] .
-                    </code>
-                </pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
         <div class="row">
@@ -129,20 +127,19 @@ nav: |
                 </blockquote>
             </div>
             <div class="col-lg-6">
-                <pre>
-                    <code>
+{% renderTemplate "md" %}
+```turtle
 grel:toUppercase :implementedIn :grelJavaImpl .
 :grelJavaImpl a prov:Agent;
-    doap:file-release &lt;http://example.com/grelFunctions.jar&gt; .
+    doap:file-release <http://example.com/grelFunctions.jar> .
 
-&lt;http://example.com/grelFunctions.jar&gt; spdx:File ;
+<http://example.com/grelFunctions.jar> spdx:File ;
 spdx:checksum [
-	spdx:algorithm spdx:checksumAlgorithm_sha1 ;
-	spdx:checksumValue "ffbdbf69f1572ea6a9f2da9a351a480f30070312"
+    spdx:algorithm spdx:checksumAlgorithm_sha1 ;
+    spdx:checksumValue "ffbdbf69f1572ea6a9f2da9a351a480f30070312"
 ] .
-
-                    </code>
-                </pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
 
@@ -163,8 +160,8 @@ spdx:checksum [
                 <p>The FnO statements involved in the data processing can be automatically captured during the mapping process.</p>
             </div>
             <div class="col-lg-6">
-                <pre>
-                    <code>
+{% renderTemplate "md" %}
+```turtle
 grel:toTitleCase a fno:Function, prov:Entity ;
     fno:name "title case" ;
     fno:expects ( [ fno:predicate grel:stringInput ] ) ;
@@ -178,8 +175,8 @@ grel:toTitleCase a fno:Function, prov:Entity ;
 
     :input a prov:Entity ; rdf:value "ben de meester" .
     :output a prov:Entity ; rdf:value "Ben De Meester" .
-                    </code>
-                </pre>
+```
+{% endrenderTemplate %}
             </div>
         </div>
 
@@ -188,8 +185,8 @@ grel:toTitleCase a fno:Function, prov:Entity ;
                 <p>These FnO statements allow us to derive the actual PROV-O information.</p>
             </div>
             <div class="col-lg-6">
-                <pre>
-                    <code>
+{% renderTemplate "md" %}
+```turtle
 :NameMapping a prov:Activity .
 
 :exe a prov:Activity ;
@@ -203,14 +200,14 @@ grel:toTitleCase a fno:Function, prov:Entity ;
         prov:hadRole :implementation;
         prov:hadPlan grel:toTitleCase
     ] ;
-    prov:startedAtTime “XXX”^^xsd:dateTime ;
-    prov:endedAtTime “YYY”^^xsd:dateTime .
+    prov:startedAtTime "XXX"^^xsd:dateTime ;
+    prov:endedAtTime "YYY"^^xsd:dateTime .
 
 :output a prov:Entity ;
     prov:wasGeneratedBy :exe ;
-    <span class="text-muted">prov:wasAttributedTo :grelJavaImpl</span> .
-                    </code>
-                </pre>
+    prov:wasAttributedTo :grelJavaImpl .
+```
+{% endrenderTemplate %}
             </div>
         </div>
 
