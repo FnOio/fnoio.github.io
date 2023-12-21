@@ -1,1 +1,6 @@
-RewriteRule /prov/dbpedia/iswc2017-semsci /prov/dbpedia/iswc2017-semsci.ttl [L,R]
+Options -MultiViews
+
+RewriteEngine On
+RewriteBase /prov/dbpedia/
+
+RewriteRule ^iswc2017-semsci$ iswc2017-semsci.ttl [L,R]
