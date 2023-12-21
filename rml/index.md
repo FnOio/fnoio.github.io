@@ -119,7 +119,7 @@ nav: |
             <div class="col-lg-6">
                 <p>
                     The FnO description of the function <a
-                        href="https://github.com/OpenRefine/OpenRefine/wiki/GREL-String-Functions#touppercasestring-s">toUppercase</a>
+                        href="https://github.com/OpenRefine/OpenRefine/wiki/GREL-String-Functions#touppercasestring-s">toUpperCase</a>
                     is as follows:
                 </p>
             </div>
@@ -146,7 +146,7 @@ grel:toUpperCase a fno:Function ;
 {% renderTemplate "md" %}
 ```turtle
 :exe a fno:Execution ;
-    fno:executes grel:toUppercase ;
+    fno:executes grel:toUpperCase ;
     grel:stringInput "This is an input STRING." ;
     grel:stringOutput "THIS IS AN INPUT STRING." .
 ```
@@ -187,7 +187,7 @@ grel:toUpperCase a fno:Function ;
         rml:logicalSource <#LogicalSource> ;              # Use the same data source for input
         rr:predicateObjectMap [
             rr:predicate fno:executes ;                   # Execute the function&hellip;
-            rr:objectMap [ rr:constant grel:toUppercase ] # grel:toUppercase
+            rr:objectMap [ rr:constant grel:toUpperCase ] # grel:toUpperCase
         ] ;
         rr:predicateObjectMap [
             rr:predicate grel:inputString ;
@@ -204,7 +204,7 @@ grel:toUpperCase a fno:Function ;
                 <p>
                     Before the <code>name</code>-value is referenced,
                     the value is first used as <code>grel:inputString</code>-parameter
-                    for the <code>grel:toUppercase</code>-function.
+                    for the <code>grel:toUpperCase</code>-function.
                     The output of that function is then used as object
                     within the <code>&lt;#NameMapping&gt;</code>
                 </p>
