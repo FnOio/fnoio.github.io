@@ -1,0 +1,20 @@
+{
+  "name": "fnoio.github.io",
+  "version": "0.1.0",
+  "description": "FnO.io website",
+  "main": " ",
+  "scripts": {
+    "serve": "npx eleventy --serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.ilabt.imec.be:fno/doc/site.git"
+  },
+  "author": "Ben De Meester",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "fs-extra": "^9.0.1",
+    "sass": "^1.29.0"
+  }
+}

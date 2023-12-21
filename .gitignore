@@ -1,5 +1,14 @@
 .idea/
-_site/
 
-#spec/*
-#!spec/README.md
+vendor
+node_modules/
+.bundle
+.gradle/
+
+.sass-cache
+_site
+
+spec/*
+!spec/README.md
+
+debug.log

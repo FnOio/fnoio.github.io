@@ -1,0 +1,1 @@
+output is found under https://github.com/IDLabResearch/function-ontology/tree/master/dist/vocabulary
