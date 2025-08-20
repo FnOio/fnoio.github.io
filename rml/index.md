@@ -8,6 +8,10 @@ nav: |
     <li class="page-scroll">
         <a href="#example">Example</a>
     </li>
+    <li class="page-scroll">
+        <a href="#more-examples">More examples</a>
+    </li>
+
 ---
 
 <!-- Header -->
@@ -256,17 +260,17 @@ grel:toUpperCase a fno:Function ;
 </section>
 
 <!-- More function examples Section -->
-<section id="more-function-examples">
+<section id="more-examples">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2>More function examples</h2>
+                <h2>More examples</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <p>
-                    Click <a href="./function-examples">here</a> for more function examples.
+                    Click <a href="./function-examples">here</a> for more examples.
                 </p>
             </div>
         </div>
