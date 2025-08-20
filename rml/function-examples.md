@@ -1,6 +1,16 @@
 ---
 layout: default
 title: Function examples
+nav: |
+    <li class="page-scroll">
+        <a href="#introduction">Introduction</a>
+    </li>
+    <li class="page-scroll">
+        <a href="#to-uppercase">To uppercase</a>
+    </li>
+    <li class="page-scroll">
+        <a href="#lookup">Lookup</a>
+    </li>
 ---
 
 <!-- Introduction -->
@@ -8,12 +18,10 @@ title: Function examples
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2>Introduction</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
 {% renderTemplate "md" %}
+
+## Introduction
+
 Some general purpose functions are described in RDF at <https://users.ugent.be/~bjdmeest/function/grel.ttl> and <https://w3id.org/imec/idlab/function>.
 Below we show how to discover some of them and use them in a mapping, written in [YARRRML](https://rml.io/yarrrml/) or [RML](https://rml.io/).
 {% endrenderTemplate %}
@@ -31,9 +39,10 @@ Below we show how to discover some of them and use them in a mapping, written in
             </div>
             <div class="col-lg-12">
 {% renderTemplate "md" %}
-### Problem
+### Challenge
 
 Make a mapping to create triples `ex:id rdfs:label "<LABEL>"`, where `<LABEL>` is the uppercase-converted value of a `label` string in the input data.
+
 The input data is in file `vegetables.csv`, with example content:
 
 ```csv
@@ -196,11 +205,10 @@ mappings:
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2>Lookup</h2>
-            </div>
-            <div class="col-lg-12">
 {% renderTemplate "md" %}
-### Problem
+
+## Lookup
+### Challenge
 
 Given a list of products, each annotated with a review code in the range 0 (lowest) to 3 (highest),
 make a mapping to create triples `ex:id onto:buying-advice "<advicex>"`.
