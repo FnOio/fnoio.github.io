@@ -75,7 +75,7 @@ nav: |
     </div>
 </section>
 
-<!-- About Section -->
+<!-- Example Section -->
 <section id="example">
     <div class="container">
         <div class="row">
@@ -250,6 +250,24 @@ grel:toUpperCase a fno:Function ;
 ] .
 ```
 {% endrenderTemplate %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- More function examples Section -->
+<section id="more-function-examples">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>More function examples</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <p>
+                    Click <a href="./function-examples">here</a> for more function examples.
+                </p>
             </div>
         </div>
     </div>
