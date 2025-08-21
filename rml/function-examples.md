@@ -23,7 +23,7 @@ nav: |
 ## Introduction
 
 Some general purpose functions are described in RDF at <https://users.ugent.be/~bjdmeest/function/grel.ttl> and <https://w3id.org/imec/idlab/function>.
-Below we show how to discover some of them and use them in a mapping, written in [YARRRML](https://rml.io/yarrrml/) or [RML](https://rml.io/).
+Below we show how to discover some of them and use them in a mapping file, written in [YARRRML](https://rml.io/yarrrml/) or [RML](https://rml.io/).
 {% endrenderTemplate %}
             </div>
         </div>
@@ -100,7 +100,7 @@ The return value of the function is `xsd:string`.
 
 ### Solution
 
-#### Mapping in YARRRML
+#### Mapping file in YARRRML
 
 <!-- next two lines needed for correct rendering, maybe some bug in the eleventy version used -->
 {% endrenderTemplate %}
@@ -126,7 +126,7 @@ mappings:
             - [grel:valueParameter, $(label)]
 ```
 
-#### Mapping in RML
+#### Mapping file in RML
 
 <!-- next two lines needed for correct rendering, maybe some bug in the eleventy version used -->
 {% endrenderTemplate %}
@@ -138,52 +138,55 @@ mappings:
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix fnml: <http://semweb.mmlab.be/ns/fnml#>.
 @prefix fno: <https://w3id.org/function/ontology#>.
-@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#>.
-@prefix void: <http://rdfs.org/ns/void#>.
-@prefix dc: <http://purl.org/dc/terms/>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix ql: <http://semweb.mmlab.be/ns/ql#>.
 @prefix : <http://mapping.example.com/>.
 @prefix ex: <http://www.example.com/data/>.
 @prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#>.
 
-:rules_000 a void:Dataset;
-    void:exampleResource :map_vegetables_000.
-:map_vegetables_000 rml:logicalSource :source_000.
-:source_000 a rml:LogicalSource;
-    rml:source "vegetables.csv";
-    rml:referenceFormulation ql:CSV.
-:map_vegetables_000 a rr:TriplesMap;
-    rdfs:label "vegetables".
-:s_000 a rr:SubjectMap.
-:map_vegetables_000 rr:subjectMap :s_000.
-:s_000 rr:template "http://www.example.com/data/{id}".
-:pom_000 a rr:PredicateObjectMap.
-:map_vegetables_000 rr:predicateObjectMap :pom_000.
-:pm_000 a rr:PredicateMap.
-:pom_000 rr:predicateMap :pm_000.
-:pm_000 rr:constant rdfs:label.
-:pom_000 rr:objectMap :om_000.
-:om_000 a fnml:FunctionTermMap;
-    rr:termType rr:Literal;
-    fnml:functionValue :fn_000.
-:fn_000 rml:logicalSource :source_000;
-    rr:predicateObjectMap :pomexec_000.
-:pomexec_000 rr:predicateMap :pmexec_000.
-:pmexec_000 rr:constant fno:executes.
-:pomexec_000 rr:objectMap :omexec_000.
-:omexec_000 rr:constant "http://users.ugent.be/~bjdmeest/function/grel.ttl#toUpperCase";
-    rr:termType rr:IRI.
-:fn_000 rr:predicateObjectMap :pom_001.
-:pom_001 a rr:PredicateObjectMap;
-    rr:predicateMap :pm_001.
-:pm_001 a rr:PredicateMap;
-    rr:constant grel:valueParameter.
-:pom_001 rr:objectMap :om_001.
-:om_001 a rr:ObjectMap;
-    rml:reference "label";
-    rr:termType rr:Literal.
+:source-vegetables a rml:LogicalSource;
+  rml:source "vegetables.csv";
+  rml:referenceFormulation ql:CSV.
+
+:map-vegetables a rr:TriplesMap;
+  rml:logicalSource :source-vegetables;
+  rdfs:label "vegetables";
+  rr:subjectMap [
+    a rr:SubjectMap;
+    rr:template "http://www.example.com/data/{id}"
+  ];
+  rr:predicateObjectMap [
+    a rr:PredicateObjectMap;
+    rr:predicateMap [
+      a rr:PredicateMap;
+      rr:constant rdfs:label
+    ];
+    rr:objectMap [
+      a fnml:FunctionTermMap;
+      rr:termType rr:Literal;
+      fnml:functionValue [
+        rml:logicalSource :source-vegetables;
+        rr:predicateObjectMap [
+          rr:predicateMap [ rr:constant fno:executes ];
+          rr:objectMap [
+            rr:constant "http://users.ugent.be/~bjdmeest/function/grel.ttl#toUpperCase";
+            rr:termType rr:IRI
+          ]
+        ], [
+          a rr:PredicateObjectMap;
+          rr:predicateMap [
+            a rr:PredicateMap;
+            rr:constant grel:valueParameter
+          ];
+          rr:objectMap [
+            a rr:ObjectMap;
+            rr:termType rr:Literal;
+            rml:reference "label"
+          ]
+        ]
+      ]
+    ]
+  ].
 ```
 
 #### Mapping engine output
@@ -314,7 +317,7 @@ The return value of the function is `xsd:string`.
 
 ### Solution
 
-#### Mapping in YARRRML
+#### Mapping file in YARRRML
 
 <!-- next two lines needed for correct rendering, maybe some bug in the eleventy version used -->
 {% endrenderTemplate %}
@@ -343,7 +346,7 @@ mappings:
             - [idlab-fn:toColumn, 1]
 ```
 
-#### Mapping in RML
+#### Mapping file in RML
 
 <!-- next two lines needed for correct rendering, maybe some bug in the eleventy version used -->
 {% endrenderTemplate %}
@@ -355,10 +358,6 @@ mappings:
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix fnml: <http://semweb.mmlab.be/ns/fnml#>.
 @prefix fno: <https://w3id.org/function/ontology#>.
-@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#>.
-@prefix void: <http://rdfs.org/ns/void#>.
-@prefix dc: <http://purl.org/dc/terms/>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix ql: <http://semweb.mmlab.be/ns/ql#>.
 @prefix : <http://mapping.example.com/>.
@@ -366,69 +365,82 @@ mappings:
 @prefix onto: <http://www.example.com/ontology/>.
 @prefix idlab-fn: <https://w3id.org/imec/idlab/function#>.
 
-:rules_000 a void:Dataset;
-    void:exampleResource :map_reviews_000.
-:map_reviews_000 rml:logicalSource :source_000.
-:source_000 a rml:LogicalSource;
-    rml:source "reviewed-products.csv";
-    rml:referenceFormulation ql:CSV.
-:map_reviews_000 a rr:TriplesMap;
-    rdfs:label "reviews".
-:s_000 a rr:SubjectMap.
-:map_reviews_000 rr:subjectMap :s_000.
-:s_000 rr:template "http://www.example.com/data/{id}".
-:pom_000 a rr:PredicateObjectMap.
-:map_reviews_000 rr:predicateObjectMap :pom_000.
-:pm_000 a rr:PredicateMap.
-:pom_000 rr:predicateMap :pm_000.
-:pm_000 rr:constant onto:review.
-:pom_000 rr:objectMap :om_000.
-:om_000 a fnml:FunctionTermMap;
-    rr:termType rr:Literal;
-    fnml:functionValue :fn_000.
-:fn_000 rml:logicalSource :source_000;
-    rr:predicateObjectMap :pomexec_000.
-:pomexec_000 rr:predicateMap :pmexec_000.
-:pmexec_000 rr:constant fno:executes.
-:pomexec_000 rr:objectMap :omexec_000.
-:omexec_000 rr:constant "https://w3id.org/imec/idlab/function#lookup";
-    rr:termType rr:IRI.
-:fn_000 rr:predicateObjectMap :pom_001.
-:pom_001 a rr:PredicateObjectMap;
-    rr:predicateMap :pm_001.
-:pm_001 a rr:PredicateMap;
-    rr:constant idlab-fn:str.
-:pom_001 rr:objectMap :om_001.
-:om_001 a rr:ObjectMap;
-    rml:reference "review code";
-    rr:termType rr:Literal.
-:fn_000 rr:predicateObjectMap :pom_002.
-:pom_002 a rr:PredicateObjectMap;
-    rr:predicateMap :pm_002.
-:pm_002 a rr:PredicateMap;
-    rr:constant idlab-fn:inputFile.
-:pom_002 rr:objectMap :om_002.
-:om_002 a rr:ObjectMap;
-    rr:constant "review-strings.csv";
-    rr:termType rr:Literal.
-:fn_000 rr:predicateObjectMap :pom_003.
-:pom_003 a rr:PredicateObjectMap;
-    rr:predicateMap :pm_003.
-:pm_003 a rr:PredicateMap;
-    rr:constant idlab-fn:fromColumn.
-:pom_003 rr:objectMap :om_003.
-:om_003 a rr:ObjectMap;
-    rr:constant "0";
-    rr:termType rr:Literal.
-:fn_000 rr:predicateObjectMap :pom_004.
-:pom_004 a rr:PredicateObjectMap;
-    rr:predicateMap :pm_004.
-:pm_004 a rr:PredicateMap;
-    rr:constant idlab-fn:toColumn.
-:pom_004 rr:objectMap :om_004.
-:om_004 a rr:ObjectMap;
-    rr:constant "1";
-    rr:termType rr:Literal.
+:source-reviewed-products a rml:LogicalSource;
+  rml:source "reviewed-products.csv";
+  rml:referenceFormulation ql:CSV.
+
+:map-reviewed-products a rr:TriplesMap;
+  rml:logicalSource :source-reviewed-products;
+  rdfs:label "reviews";
+  rr:subjectMap [
+    a rr:SubjectMap;
+    rr:template "http://www.example.com/data/{id}"
+  ];
+  rr:predicateObjectMap [
+    a rr:PredicateObjectMap;
+    rr:predicateMap [
+      a rr:PredicateMap;
+      rr:constant onto:review
+    ];
+    rr:objectMap [
+      a fnml:FunctionTermMap;
+      rr:termType rr:Literal;
+      fnml:functionValue [
+        rml:logicalSource :source-reviewed-products;
+        rr:predicateObjectMap [
+          rr:predicateMap [ rr:constant fno:executes ];
+          rr:objectMap [
+            rr:constant "https://w3id.org/imec/idlab/function#lookup";
+            rr:termType rr:IRI
+          ]
+        ], [
+          a rr:PredicateObjectMap;
+          rr:predicateMap [
+            a rr:PredicateMap;
+            rr:constant idlab-fn:str
+          ];
+          rr:objectMap [
+            a rr:ObjectMap;
+            rr:termType rr:Literal;
+            rml:reference "review code"
+          ]
+        ], [
+          a rr:PredicateObjectMap;
+          rr:predicateMap [
+            a rr:PredicateMap;
+            rr:constant idlab-fn:inputFile
+          ];
+          rr:objectMap [
+            a rr:ObjectMap;
+            rr:constant "review-strings.csv";
+            rr:termType rr:Literal
+          ]
+        ], [
+          a rr:PredicateObjectMap;
+          rr:predicateMap [
+            a rr:PredicateMap;
+            rr:constant idlab-fn:fromColumn
+          ];
+          rr:objectMap [
+            a rr:ObjectMap;
+            rr:constant "0";
+            rr:termType rr:Literal
+          ]
+        ], [
+          a rr:PredicateObjectMap;
+          rr:predicateMap [
+            a rr:PredicateMap;
+            rr:constant idlab-fn:toColumn
+          ];
+          rr:objectMap [
+            a rr:ObjectMap;
+            rr:constant "1";
+            rr:termType rr:Literal
+          ]
+        ]
+      ]
+    ]
+  ].
 ```
 
 #### Mapping engine output
