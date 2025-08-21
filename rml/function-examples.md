@@ -211,9 +211,9 @@ mappings:
 ### Challenge
 
 Given a list of products, each annotated with a review code in the range 0 (lowest) to 3 (highest),
-make a mapping to create triples `ex:id onto:buying-advice "<advicex>"`.
-`<advicex>` Is one of the strings we define to represent a buying advice of a product.
-The buying advice strings are based on the review code and are defined in a separate list.
+make a mapping to create triples `ex:id onto:review "<review-string>"`.
+`<review-string>` Is one of the strings we define to present the review of a product to the public.
+The review strings are based on the review code and are defined in a separate list.
 
 The reviewed products are given in file `reviewed-products.csv`, with example content:
 
@@ -225,14 +225,14 @@ id,review code
 4,0
 ```
 
-The strings to represent a buying advice are given in file `buying-advices.csv`.
-Column 0 has the review codes; column 1 has the buying advice strings.
+The strings to represent a review are given in file `review-strings`.
+Column 0 has the review codes; column 1 has the review strings.
 
 ```csv
-0,avoid
-1,consider
-2,shortlist
-3,buy
+0,bad
+1,poor
+2,good
+3,excellent
 ```
 
 ### How to solve
@@ -327,18 +327,18 @@ prefixes:
   idlab-fn: https://w3id.org/imec/idlab/function#
 
 mappings:
-  buying-advices:
+  reviews:
     sources:
       - ['reviewed-products.csv~csv']
     s:
       value: ex:$(id)
     po:
-      - p: onto:buying-advice
+      - p: onto:review
         o:
           function: idlab-fn:lookup
           parameters:
             - [idlab-fn:str, $(review code)]
-            - [idlab-fn:inputFile, 'buying-advices.csv']
+            - [idlab-fn:inputFile, 'review-strings.csv']
             - [idlab-fn:fromColumn, 0]
             - [idlab-fn:toColumn, 1]
 ```
@@ -367,21 +367,21 @@ mappings:
 @prefix idlab-fn: <https://w3id.org/imec/idlab/function#>.
 
 :rules_000 a void:Dataset;
-    void:exampleResource :map_buying-advices_000.
-:map_buying-advices_000 rml:logicalSource :source_000.
+    void:exampleResource :map_reviews_000.
+:map_reviews_000 rml:logicalSource :source_000.
 :source_000 a rml:LogicalSource;
     rml:source "reviewed-products.csv";
     rml:referenceFormulation ql:CSV.
-:map_buying-advices_000 a rr:TriplesMap;
-    rdfs:label "buying-advices".
+:map_reviews_000 a rr:TriplesMap;
+    rdfs:label "reviews".
 :s_000 a rr:SubjectMap.
-:map_buying-advices_000 rr:subjectMap :s_000.
+:map_reviews_000 rr:subjectMap :s_000.
 :s_000 rr:template "http://www.example.com/data/{id}".
 :pom_000 a rr:PredicateObjectMap.
-:map_buying-advices_000 rr:predicateObjectMap :pom_000.
+:map_reviews_000 rr:predicateObjectMap :pom_000.
 :pm_000 a rr:PredicateMap.
 :pom_000 rr:predicateMap :pm_000.
-:pm_000 rr:constant onto:buying-advice.
+:pm_000 rr:constant onto:review.
 :pom_000 rr:objectMap :om_000.
 :om_000 a fnml:FunctionTermMap;
     rr:termType rr:Literal;
@@ -409,7 +409,7 @@ mappings:
     rr:constant idlab-fn:inputFile.
 :pom_002 rr:objectMap :om_002.
 :om_002 a rr:ObjectMap;
-    rr:constant "buying-advices.csv";
+    rr:constant "review-strings.csv";
     rr:termType rr:Literal.
 :fn_000 rr:predicateObjectMap :pom_003.
 :pom_003 a rr:PredicateObjectMap;
@@ -434,10 +434,10 @@ mappings:
 #### Mapping engine output
 
 ```turtle
-<http://www.example.com/data/1> <http://www.example.com/ontology/buying-advice> "buy" .
-<http://www.example.com/data/2> <http://www.example.com/ontology/buying-advice> "shortlist" .
-<http://www.example.com/data/3> <http://www.example.com/ontology/buying-advice> "consider" .
-<http://www.example.com/data/4> <http://www.example.com/ontology/buying-advice> "avoid" .
+<http://www.example.com/data/1> <http://www.example.com/ontology/review> "excellent" .
+<http://www.example.com/data/2> <http://www.example.com/ontology/review> "good" .
+<http://www.example.com/data/3> <http://www.example.com/ontology/review> "poor" .
+<http://www.example.com/data/4> <http://www.example.com/ontology/review> "bad" .
 ```
 
 {% endrenderTemplate %}
