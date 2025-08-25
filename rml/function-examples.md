@@ -39,6 +39,7 @@ Below we show how to discover some of them and use them in a mapping file, writt
             </div>
             <div class="col-lg-12">
 {% renderTemplate "md" %}
+
 ### Challenge
 
 Make a mapping to create triples `ex:id rdfs:label "<LABEL>"`, where `<LABEL>` is the uppercase-converted value of a `label` string in the input data.
@@ -211,6 +212,7 @@ mappings:
 {% renderTemplate "md" %}
 
 ## Lookup
+
 ### Challenge
 
 Given a list of products, each annotated with a review code in the range 0 (lowest) to 3 (highest),

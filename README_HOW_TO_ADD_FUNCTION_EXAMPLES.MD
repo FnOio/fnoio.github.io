@@ -8,9 +8,9 @@ This renders file [rml/function-examples.md](rml/function-examples.md).
 To add an example to that file, proceed as follows:
 
 1. Copy comment `<!-- To uppercase -->` and the entire section `<section id="to-uppercase">` below it and paste these at the end of the file.
-2. Adapt the new comment line, section id and all text to your needs to document your function.
+2. Adapt the new comment line, section id and all text in `Challenge` and `How to solve` to your example.
 3. Try out your example in an environment with the YARRRML parser and the RMLMapper.
-4. Put the contents of your final YARRRML file in the yaml code block in your new section `Mapping file in YARRRML`.
+4. Put the contents of your final YARRRML file in the yaml code block in `Mapping file in YARRRML`.
 5. Use the RML output of the YARRRML file as the basis for a beautified RML file. Beautify as follows:
 
    a. use [RML-SDK](https://gitlab.ilabt.imec.be/rml/util/rml-sdk) to nicely nest nodes. I used the following command line:
@@ -37,5 +37,5 @@ To add an example to that file, proceed as follows:
    d. Delete irrelevant prefixes, for example `d2rq`, `void`, `dc`.
 
 6. Test your beautified RML file.
-7. Put the contents of your final RML file in the turtle code block in your new section `Mapping file in RML`.
-8. Put the output of RMLMapper in the turtle code block in your new section `Mapping engine output`.
+7. Put the contents of your final RML file in the turtle code block in `Mapping file in RML`.
+8. Put the output of RMLMapper in the turtle code block in `Mapping engine output`.
