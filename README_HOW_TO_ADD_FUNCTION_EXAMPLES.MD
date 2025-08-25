@@ -8,7 +8,7 @@ This renders file [rml/function-examples.md](rml/function-examples.md).
 To add an example to that file, proceed as follows:
 
 1. Copy comment `<!-- To uppercase -->` and the entire section `<section id="to-uppercase">` below it and paste these at the end of the file.
-2. Adapt the new comment line, section id and all text in `Challenge` and `How to solve` to your example.
+2. Adapt the new comment line, section id, title, and all text in `Challenge` and `How to solve` to your example.
 3. Try out your example in an environment with the YARRRML parser and the RMLMapper.
 4. Put the contents of your final YARRRML file in the yaml code block in `Mapping file in YARRRML`.
 5. Use the RML output of the YARRRML file as the basis for a beautified RML file. Beautify as follows:
@@ -39,3 +39,4 @@ To add an example to that file, proceed as follows:
 6. Test your beautified RML file.
 7. Put the contents of your final RML file in the turtle code block in `Mapping file in RML`.
 8. Put the output of RMLMapper in the turtle code block in `Mapping engine output`.
+9. Add a link to your new section in the `nav: |` list at the top of the document.
