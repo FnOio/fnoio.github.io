@@ -71,7 +71,7 @@ grel:toUpperCase
     fno:returns         ( grel:stringOut ) .
 ```
 
-Predicate `fno:expects` provides info about the parameters to the function (more about these below).
+Predicate `fno:expects` provides info about the parameters of the function (more about these below).
 
 Predicate `fno:returns` provides info about the return value of the function (more about it below).
 
@@ -215,7 +215,7 @@ mappings:
 
 Given a list of products, each annotated with a review code in the range 0 (lowest) to 3 (highest),
 make a mapping to create triples `ex:id onto:review "<review-string>"`.
-`<review-string>` Is one of the strings we define to present the review of a product to the public.
+`<review-string>` is one of the strings we define to present the review of a product to the public.
 The review strings are based on the review code and are defined in a separate list.
 
 The reviewed products are given in file `reviewed-products.csv`, with example content:
@@ -256,7 +256,7 @@ idlab-fn:lookup
     fno:returns         ( idlab-fn:_stringOut ) .
 ```
 
-Predicate `fno:expects` provides info about the parameters to the function (more about these below).
+Predicate `fno:expects` provides info about the parameters of the function (more about these below).
 
 Predicate `fno:returns` provides info about the return value of the function (more about it below).
 
