@@ -35,10 +35,9 @@ Below we show how to discover some of them and use them in a mapping file, writt
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2>To uppercase</h2>
-            </div>
-            <div class="col-lg-12">
 {% renderTemplate "md" %}
+
+## To uppercase
 
 ### Challenge
 
