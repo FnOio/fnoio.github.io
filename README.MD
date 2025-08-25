@@ -14,3 +14,7 @@ See <https://fno.io/>
 `npm i`
 
 `npm run serve`
+
+## Function examples in RML and YARRRML
+
+[How to document function examples](README_HOW_TO_ADD_FUNCTION_EXAMPLES.MD)
