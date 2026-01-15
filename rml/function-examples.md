@@ -11,6 +11,9 @@ nav: |
     <li class="page-scroll">
         <a href="#lookup">Lookup</a>
     </li>
+     <li class="page-scroll">
+        <a href="#crossconcatsequence">CrossConcatSequence</a>
+    </li>
 ---
 
 <!-- Introduction -->
@@ -460,7 +463,7 @@ mappings:
 </section>
 
 <!-- Lookup -->
-<section id="lookup">
+<section id="crossconcatsequence">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
