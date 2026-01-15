@@ -462,7 +462,7 @@ mappings:
     </div>
 </section>
 
-<!-- Lookup -->
+<!-- CrossConcatSequence -->
 <section id="crossconcatsequence">
     <div class="container">
         <div class="row">
