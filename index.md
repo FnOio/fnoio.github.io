@@ -115,6 +115,7 @@ nav: |
                         <h3><i class="fa fa-cogs"></i> RML</h3>
                         <p><a href="/rml/">Connection to RML</a></p>
                         <p><a href="/prov/">Connection to RML and PROV</a></p>
+                        <p><a href="/rml/function-examples/">Examples</a></p>
                     </div>
                     <div class="portfolio-item">
                         <h3><i class="fa fa-cogs"></i> Docker</h3>

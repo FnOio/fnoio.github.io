@@ -11,6 +11,9 @@ nav: |
     <li class="page-scroll">
         <a href="#lookup">Lookup</a>
     </li>
+     <li class="page-scroll">
+        <a href="#crossconcatsequence">CrossConcatSequence</a>
+    </li>
 ---
 
 <!-- Introduction -->
@@ -451,6 +454,272 @@ mappings:
 <http://www.example.com/data/2> <http://www.example.com/ontology/review> "good" .
 <http://www.example.com/data/3> <http://www.example.com/ontology/review> "poor" .
 <http://www.example.com/data/4> <http://www.example.com/ontology/review> "bad" .
+```
+
+{% endrenderTemplate %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CrossConcatSequence -->
+<section id="crossconcatsequence">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+{% renderTemplate "md" %}
+
+
+## CrossConcatSequence
+
+### Challenge
+
+Students take classes, list wich classes each student takes. Make triples
+`<STUDENT> ex:takesClasses ex:<CLASS A>, ex:<CLASS B>, ...` .
+
+The input is a csv file `classes.csv`:
+```csv
+Student,Classes
+Alice,Math;Programming;Databases
+Bob,German;French
+```
+
+### How to solve
+
+First the `Classes` column needs to be split by `;`.
+We use the function <http://users.ugent.be/~bjdmeest/function/grel.ttl#string_split> :
+
+```turtle
+grel:string_split
+    a                   fno:Function ;
+    fno:name            "split" ;
+    dcterms:description "split" ;
+    fno:expects         ( grel:valueParam grel:param_string_sep ) ;
+    fno:returns         ( grel:output_array ) .
+```
+
+Predicate `fno:expects` provides info about the parameters of the function (more about these below).
+
+Predicate `fno:returns` provides info about the return value of the function (more about it below).
+
+```turtle
+grel:valueParam
+    a             fno:Parameter ;
+    fno:name      "input value" ;
+    rdfs:label    "input value" ;
+    fno:predicate grel:valueParameter ;
+    fno:type      xsd:string ;
+    fno:required  "true"^^xsd:boolean .
+```
+```turtle
+grel:param_string_sep
+    a             fno:Parameter ;
+    fno:name      "sep" ;
+    rdfs:label    "sep" ;
+    fno:predicate grel:p_string_sep ;
+    fno:type      xsd:string ;
+    fno:required  "true"^^xsd:boolean .
+```
+
+To specify parameter `grel:valueParam`, we must use the predicate `grel:valueParameter` and the object must be of type `xsd:string`.
+To specify parameter `grel:param_string_sep`, we must use the predicate `grel:p_string_sep` and the object must be of type `xsd:string`.
+
+```turtle
+grel:output_array
+    a             fno:Output ;
+    fno:name      "array" ;
+    rdfs:label    "array" ;
+    fno:predicate grel:o_array ;
+    fno:type      rdf:List .
+```
+The return value of the function is `rdf:List`.
+
+Then, we need to concatenate the list of classes to the `ex:` prefix.
+So this means concatenating a string to a list by combining the string with each element of the list.
+This can be obtained by using the function <https://w3id.org/imec/idlab/function#crossConcatSequence> .
+It takes a sequence of lists as input, and combines each element of each list.
+
+For example, if the input lists are
+```
+("Have a", "I wish you a"),
+("good", "lovely"),
+("night, "day")
+```
+and given a separator *space*, then the result is a list with concatenated strings:
+
+```
+(
+"Have a good day",
+"Have a good night",
+"Have a lovely day",
+"Have a lovely night",
+"I wish you a good day"
+"I wish you a good night"
+"I wish you a lovely day"
+"I wish you a lovely night"
+)
+```
+
+This is the function description; the mechanism is the same as the previous function:
+
+```turtle
+idlab-fn:crossConcatSequence
+    dct:description "Produces the Cartesian product of an rdf:seq of objects or lists of objects, optionally with a separator" ;
+    a                fno:Function ;
+    rdfs:label       "crossConcatSequence" ;
+    fno:expects      ( idlab-fn:_seq idlab-fn:_delimiter ) ;
+    fno:name         "crossConcatSequence" ;
+    fno:returns      ( idlab-fn:_listOut ) .
+```
+
+The first parameter, `idlab-fn:_seq`, is a special one in that sense
+that it uses a predicate `rdf:_nnn` which means `rdf:_1` for the first
+element of the sequence, `rdf_2` for the second etc.
+
+```turtle
+idlab-fn:_seq
+    a             fno:Parameter ;
+    fno:name      "rdf:Seq parameter" ;
+    fno:predicate rdf:_nnn ;
+    fno:type      xsd:any ;
+    fno:required  "true"^^xsd:boolean .
+
+```
+
+```turtle
+idlab-fn:_delimiter
+    a             fno:Parameter ;
+    fno:name      "delimiter" ;
+    rdfs:label    "delimiter" ;
+    fno:type      xsd:string ;
+    fno:predicate idlab-fn:delimiter .
+```
+
+```turtle
+idlab-fn:_listOut
+    a             fno:Parameter ;
+    fno:name      "output list" ;
+    rdfs:label    "output list" ;
+    fno:type      rdf:List ;
+    fno:predicate idlab-fn:listOut .
+```
+
+### Solution
+
+#### Mapping file in YARRRML
+
+<!-- next two lines needed for correct rendering, maybe some bug in the eleventy version used -->
+{% endrenderTemplate %}
+{% renderTemplate "md" %}
+
+```yaml
+prefixes:
+ idlab-fn: https://w3id.org/imec/idlab/function#
+ grel: http://users.ugent.be/~bjdmeest/function/grel.ttl#
+ ex: http://example.org/
+
+mappings:
+  person:
+    sources:
+      - [classes.csv~csv]
+
+    s: http://example.org/$(Student)
+    po:
+      - p: ex:takesClasses
+        o:
+          - function: idlab-fn:crossConcatSequence
+            type: iri
+            parameters:
+              - [rdf:_1, http://example.org/class/]
+              - parameter: rdf:_2
+                value:
+                  function: grel:string_split
+                  parameters:
+                    - [grel:valueParameter, $(Classes)]
+                    - [grel:p_string_sep, ';']
+```
+#### Mapping file in RML
+
+<!-- next two lines needed for correct rendering, maybe some bug in the eleventy version used -->
+{% endrenderTemplate %}
+{% renderTemplate "md" %}
+
+```turtle
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix fnml: <http://semweb.mmlab.be/ns/fnml#> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix fno: <https://w3id.org/function/ontology#> .
+@prefix idlab-fn: <https://w3id.org/imec/idlab/function#> .
+@base <http://example.org/>.
+
+<#LogicalSourceClasses> a rml:LogicalSource ;
+  rml:source "classes.csv" ;
+  rml:referenceFormulation ql:CSV .
+
+<#ClassesMapping> a rr:TriplesMap;
+  rml:logicalSource <#LogicalSourceClasses> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/{Student}";
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate <takesClasses> ;
+    rr:objectMap <#ListClassesFunction> ;
+  ] .
+
+<#ListClassesFunction>
+    rr:termType rr:IRI;
+    fnml:functionValue [
+        rr:predicateObjectMap [
+            rr:predicate fno:executes ;
+            rr:objectMap [ rr:constant idlab-fn:crossConcatSequence ]
+        ];
+        rr:predicateObjectMap [
+            rr:predicate rdf:_1 ;
+            rr:objectMap [ rr:constant "http://example.org/class/" ]
+        ];
+        rr:predicateObjectMap [
+            rr:predicate rdf:_2 ;
+            rr:objectMap <#SplitClassesFunction>
+        ];
+    ] .
+
+
+<#SplitClassesFunction>
+    fnml:functionValue [
+        rml:logicalSource <#LogicalSourceClasses>;
+        rr:predicateObjectMap [
+            rr:predicate fno:executes;
+            rr:objectMap [ rr:constant grel:string_split ];
+        ];
+        rr:predicateObjectMap [
+            rr:predicate grel:valueParameter;
+            rr:objectMap [ rml:reference "Classes" ];
+        ];
+        rr:predicateObjectMap [
+            rr:predicate grel:p_string_sep;
+            rr:objectMap [ rr:constant ";" ];
+        ];
+    ].
+```
+
+#### Mapping engine output
+
+<!-- next two lines needed for correct rendering, maybe some bug in the eleventy version used -->
+{% endrenderTemplate %}
+{% renderTemplate "md" %}
+
+```turtle
+@prefix ex: <http://example.org/> .
+
+ex:Alice ex:takesClasses
+  <http://example.org/class/Databases>, <http://example.org/class/Math>, <http://example.org/class/Programming> .
+
+ex:Bob ex:takesClasses
+  <http://example.org/class/French>, <http://example.org/class/German> .
 ```
 
 {% endrenderTemplate %}
